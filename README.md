@@ -2,7 +2,7 @@
 
 <div align="center">
 
-**版本**: `v0.6.2` (深度检查修复版) | **日期**: 2026-01-25 | **芯片**: CH591/CH592
+**版本**: `v0.6.2`  | **日期**: 2026-01-25 | **芯片**: CH591/CH592
 
 [![固件版本](https://img.shields.io/badge/固件-v0.6.2-blue.svg)](https://github.com)
 [![架构](https://img.shields.io/badge/架构-RISC--V-green.svg)](https://github.com)
