@@ -1,4 +1,6 @@
-# SlimeVR CH59X 私有RF固件
+# SlimeVR CH59X 移植固件
+
+# 目的：实现低成本的Smol SlimeVR方案
 
 # 注：该项目还属于测试阶段
 
