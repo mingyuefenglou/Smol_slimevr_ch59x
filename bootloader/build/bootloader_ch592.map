@@ -1,0 +1,116 @@
+
+Discarded input sections
+
+ .text          0x00000000        0x0 build/bootloader_main.o
+ .data          0x00000000        0x0 build/bootloader_main.o
+ .bss           0x00000000        0x0 build/bootloader_main.o
+ .comment       0x00000000       0x34 build/bootloader_main.o
+ .note.GNU-stack
+                0x00000000        0x0 build/bootloader_main.o
+ .text          0x00000000        0x0 build/startup_boot.o
+ .data          0x00000000        0x0 build/startup_boot.o
+ .bss           0x00000000        0x0 build/startup_boot.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x00000000         0x00001000         xr
+RAM              0x20000000         0x00006800         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD build/bootloader_main.o
+LOAD build/startup_boot.o
+                0x20006800                        _estack = (ORIGIN (RAM) + LENGTH (RAM))
+                0x00000200                        _Min_Stack_Size = 0x200
+
+.vectors        0x00000000       0x90
+                0x00000000                        . = ALIGN (0x4)
+ *(.vectors)
+ .vectors       0x00000000       0x90 build/startup_boot.o
+                0x00000000                _vectors
+                0x00000090                        . = ALIGN (0x4)
+
+.init           0x00000090       0x5c
+                0x00000090                        . = ALIGN (0x4)
+ *(.init)
+ .init          0x00000090       0x5a build/startup_boot.o
+                0x00000090                _start
+                0x000000ec                        . = ALIGN (0x4)
+ *fill*         0x000000ea        0x2 
+
+.text           0x000000ec       0xe8
+                0x000000ec                        . = ALIGN (0x4)
+ *(.text)
+ *(.text.*)
+ .text.delay_ms
+                0x000000ec       0x20 build/bootloader_main.o
+ .text.check_boot_button
+                0x0000010c       0x3c build/bootloader_main.o
+ .text.jump_to_app
+                0x00000148       0x18 build/bootloader_main.o
+ .text.bootloader_main
+                0x00000160       0x72 build/bootloader_main.o
+                0x00000160                bootloader_main
+ .text.Default_Handler
+                0x000001d2        0x2 build/startup_boot.o
+                0x000001d2                NMI_Handler
+                0x000001d2                Default_Handler
+                0x000001d2                HardFault_Handler
+                0x000001d4                        . = ALIGN (0x4)
+                0x000001d4                        _etext = .
+
+.rela.dyn       0x000001d4        0x0
+ .rela.init     0x000001d4        0x0 build/bootloader_main.o
+ .rela.vectors  0x000001d4        0x0 build/bootloader_main.o
+
+.rodata         0x000001d4        0x0
+                0x000001d4                        . = ALIGN (0x4)
+ *(.rodata)
+ *(.rodata.*)
+                0x000001d4                        . = ALIGN (0x4)
+                0x000001d4                        . = ALIGN (0x4)
+                0x000009d4                        PROVIDE (__global_pointer$ = (. + 0x800))
+                0x000001d4                        _sidata = LOADADDR (.data)
+
+.data           0x20000000        0x0 load address 0x000001d4
+                0x20000000                        . = ALIGN (0x4)
+                0x20000000                        _sdata = .
+ *(.data)
+ *(.data.*)
+ *(.sdata)
+ *(.sdata.*)
+                0x20000000                        . = ALIGN (0x4)
+                0x20000000                        _edata = .
+
+.bss            0x20000000        0x0 load address 0x000001d4
+                0x20000000                        . = ALIGN (0x4)
+                0x20000000                        _sbss = .
+ *(.bss)
+ *(.bss.*)
+ *(.sbss)
+ *(.sbss.*)
+ *(COMMON)
+                0x20000000                        . = ALIGN (0x4)
+                0x20000000                        _ebss = .
+
+.stack          0x20000000      0x200 load address 0x000001d4
+                0x20000000                        . = ALIGN (0x8)
+                0x20000200                        . = (. + _Min_Stack_Size)
+ *fill*         0x20000000      0x200 
+                [!provide]                        PROVIDE (_stack = .)
+                0x00000001                        ASSERT (((_etext + (_edata - _sdata)) <= 0x1000), Bootloader exceeds 4KB!)
+
+/DISCARD/
+ *(.eh_frame*)
+ *(.comment)
+ *(.note.*)
+OUTPUT(build/bootloader_ch592.elf elf32-littleriscv)
+
+.riscv.attributes
+                0x00000000       0x67
+ .riscv.attributes
+                0x00000000       0x67 build/bootloader_main.o
+ .riscv.attributes
+                0x00000067       0x61 build/startup_boot.o

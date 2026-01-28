@@ -1,0 +1,156 @@
+
+[0;32m╔══════════════════════════════════════════════╗[0m
+[0;32m║   SlimeVR CH59X 固件编译系统 v0.4.12         ║[0m
+[0;32m╚══════════════════════════════════════════════╝[0m
+
+目标: all
+MCU:  CH592
+调试: 禁用
+合并: 启用
+[0;32m✓ 工具链: riscv-none-elf-gcc.exe (xPack GNU RISC-V Embedded GCC x86_64) 15.2.0[0m
+
+[0;34m============================================[0m
+[0;34m  编译 Bootloader[0m
+[0;34m============================================[0m
+rm -rf build output
+mkdir -p build
+riscv-none-elf-gcc -march=rv32imac_zicsr_zifencei -mabi=ilp32 -Os -ffunction-sections -fdata-sections -fno-common -Wall -Wno-unused-function -nostdlib -ffreestanding -c src/bootloader_main.c -o build/bootloader_main.o
+src/bootloader_main.c: In function 'jump_to_app':
+src/bootloader_main.c:125:16: warning: unused variable 'app' [-Wunused-variable]
+  125 |     app_func_t app = (app_func_t)app_entry;
+      |                ^~~
+riscv-none-elf-gcc -march=rv32imac_zicsr_zifencei -mabi=ilp32 -c src/startup_boot.S -o build/startup_boot.o
+riscv-none-elf-gcc -T Link_boot.ld -nostdlib -Wl,--gc-sections -Wl,-Map=build/bootloader_ch592.map build/bootloader_main.o build/startup_boot.o -o build/bootloader_ch592.elf
+riscv-none-elf-size build/bootloader_ch592.elf
+   text	   data	    bss	    dec	    hex	filename
+    468	      0	    512	    980	    3d4	build/bootloader_ch592.elf
+mkdir -p output
+riscv-none-elf-objcopy -O binary build/bootloader_ch592.elf output/bootloader_ch592.bin
+Bootloader size: 468 bytes (max 4096)
+riscv-none-elf-objcopy -O ihex build/bootloader_ch592.elf output/bootloader_ch592.hex
+[0;32m✓ Bootloader: 468 bytes (max 4096)[0m
+
+[0;34m============================================[0m
+[0;34m  编译 Tracker 固件[0m
+[0;34m============================================[0m
+[Version] Using default: 0.4.2
+[CLEAN] 娓呯悊鏋勫缓鏂囦欢 / Cleaning build files...
+rm -rf build
+[Version] Using default: 0.4.2
+[CC] src/main_tracker.c
+riscv-none-elf-gcc -march=rv32imac -mabi=ilp32 -msmall-data-limit=8 -Os -ffunction-sections -fdata-sections -fno-common -fno-exceptions -fshort-enums -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -DBUILD_TRACKER -DCH592 -DCH59X -DVERSION_MAJOR=0 -DVERSION_MINOR=4 -DVERSION_PATCH=2 -DMAX_TRACKERS=24 -DFLASH_SIZE=448K -DRAM_SIZE=26K -Iinclude -Isrc -Isdk/StdPeriphDriver/inc -Isdk/RVMSIS -Isdk/BLE/LIB -Isdk/BLE/HAL/include -flto -MMD -MP -c src/main_tracker.c -o build/tracker/src/main_tracker.o
+In file included from src/main_tracker.c:16:
+include/config.h:234:9: warning: 'MAX_TRACKERS' redefined
+  234 | #define MAX_TRACKERS            10      // 固定10个tracker，保证200Hz稳定性
+      |         ^~~~~~~~~~~~
+<command-line>: note: this is the location of the previous definition
+src/main_tracker.c: In function 'enter_state':
+src/main_tracker.c:276:21: warning: unused variable 'old_state' [-Wunused-variable]
+  276 |     tracker_state_t old_state = state;
+      |                     ^~~~~~~~~
+src/main_tracker.c: In function 'sensor_task':
+src/main_tracker.c:432:11: warning: unused variable 'gv' [-Wunused-variable]
+  432 |     float gv[3] = {0, 0, 1};
+      |           ^~
+src/main_tracker.c: In function 'save_pairing_data':
+src/main_tracker.c:504:23: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+  504 |     for (int i = 0; i < sizeof(data) - 2; i++) {
+      |                       ^
+src/main_tracker.c: In function 'load_pairing_data':
+src/main_tracker.c:549:23: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+  549 |     for (int i = 0; i < sizeof(data) - 2; i++) {
+      |                       ^
+In file included from src/main_tracker.c:39:
+src/main_tracker.c: In function 'main':
+include/error_codes.h:63:37: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '-513' to '255' [-Woverflow]
+   63 | #define ERR_RF_INIT_FAIL            (ERR_RF_BASE - 1)    // RF初始化失败
+      |                                     ^
+include/error_codes.h:75:37: note: in expansion of macro 'ERR_RF_INIT_FAIL'
+   75 | #define ERR_RF_INIT                 ERR_RF_INIT_FAIL
+      |                                     ^~~~~~~~~~~~~~~~
+src/main_tracker.c:1028:22: note: in expansion of macro 'ERR_RF_INIT'
+ 1028 |         error_code = ERR_RF_INIT;
+      |                      ^~~~~~~~~~~
+include/error_codes.h:95:37: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '-1025' to '255' [-Woverflow]
+   95 | #define ERR_IMU_NOT_FOUND           (ERR_IMU_BASE - 1)   // IMU未找到
+      |                                     ^
+src/main_tracker.c:1034:22: note: in expansion of macro 'ERR_IMU_NOT_FOUND'
+ 1034 |         error_code = ERR_IMU_NOT_FOUND;
+      |                      ^~~~~~~~~~~~~~~~~
+src/main_tracker.c:1139:32: warning: unused variable 'long2' [-Wunused-variable]
+ 1139 |         bool single2, double2, long2;
+      |                                ^~~~~
+src/main_tracker.c:1139:23: warning: unused variable 'double2' [-Wunused-variable]
+ 1139 |         bool single2, double2, long2;
+      |                       ^~~~~~~
+src/main_tracker.c:1139:14: warning: unused variable 'single2' [-Wunused-variable]
+ 1139 |         bool single2, double2, long2;
+      |              ^~~~~~~
+src/main_tracker.c: At top level:
+src/main_tracker.c:220:23: warning: 'btn_reset' defined but not used [-Wunused-variable]
+  220 | static button_state_t btn_reset;
+      |                       ^~~~~~~~~
+src/main_tracker.c:207:15: warning: 'last_rssi' defined but not used [-Wunused-variable]
+  207 | static int8_t last_rssi = 0;
+      |               ^~~~~~~~~
+src/main_tracker.c:206:17: warning: 'last_sync_time' defined but not used [-Wunused-variable]
+  206 | static uint32_t last_sync_time = 0;
+      |                 ^~~~~~~~~~~~~~
+src/main_tracker.c:204:16: warning: 'sequence_num' defined but not used [-Wunused-variable]
+  204 | static uint8_t sequence_num = 0;
+      |                ^~~~~~~~~~~~
+[CC] src/rf/rf_transmitter.c
+riscv-none-elf-gcc -march=rv32imac -mabi=ilp32 -msmall-data-limit=8 -Os -ffunction-sections -fdata-sections -fno-common -fno-exceptions -fshort-enums -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -DBUILD_TRACKER -DCH592 -DCH59X -DVERSION_MAJOR=0 -DVERSION_MINOR=4 -DVERSION_PATCH=2 -DMAX_TRACKERS=24 -DFLASH_SIZE=448K -DRAM_SIZE=26K -Iinclude -Isrc -Isdk/StdPeriphDriver/inc -Isdk/RVMSIS -Isdk/BLE/LIB -Isdk/BLE/HAL/include -flto -MMD -MP -c src/rf/rf_transmitter.c -o build/tracker/src/rf/rf_transmitter.o
+In file included from include/rf_protocol.h:15,
+                 from src/rf/rf_transmitter.c:10:
+include/config.h:234:9: warning: 'MAX_TRACKERS' redefined
+  234 | #define MAX_TRACKERS            10      // 固定10个tracker，保证200Hz稳定性
+      |         ^~~~~~~~~~~~
+<command-line>: note: this is the location of the previous definition
+[CC] src/usb/usb_bootloader.c
+riscv-none-elf-gcc -march=rv32imac -mabi=ilp32 -msmall-data-limit=8 -Os -ffunction-sections -fdata-sections -fno-common -fno-exceptions -fshort-enums -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -DBUILD_TRACKER -DCH592 -DCH59X -DVERSION_MAJOR=0 -DVERSION_MINOR=4 -DVERSION_PATCH=2 -DMAX_TRACKERS=24 -DFLASH_SIZE=448K -DRAM_SIZE=26K -Iinclude -Isrc -Isdk/StdPeriphDriver/inc -Isdk/RVMSIS -Isdk/BLE/LIB -Isdk/BLE/HAL/include -flto -MMD -MP -c src/usb/usb_bootloader.c -o build/tracker/src/usb/usb_bootloader.o
+src/usb/usb_bootloader.c: In function 'scsi_handle_read':
+src/usb/usb_bootloader.c:411:14: warning: unused variable 'blocks' [-Wunused-variable]
+  411 |     uint16_t blocks = (cbw->cb[7] << 8) | cbw->cb[8];
+      |              ^~~~~~
+src/usb/usb_bootloader.c: In function 'scsi_handle_write':
+src/usb/usb_bootloader.c:431:14: warning: unused variable 'lba' [-Wunused-variable]
+  431 |     uint32_t lba = (cbw->cb[2] << 24) | (cbw->cb[3] << 16) |
+      |              ^~~
+src/usb/usb_bootloader.c: At top level:
+src/usb/usb_bootloader.c:376:14: warning: 'csw' defined but not used [-Wunused-variable]
+  376 | static csw_t csw;
+      |              ^~~
+src/usb/usb_bootloader.c:126:19: warning: 'info_uf2_txt' defined but not used [-Wunused-const-variable=]
+  126 | static const char info_uf2_txt[] =
+      |                   ^~~~~~~~~~~~
+src/usb/usb_bootloader.c:62:22: warning: 'msc_config_desc' defined but not used [-Wunused-const-variable=]
+   62 | static const uint8_t msc_config_desc[] = {
+      |                      ^~~~~~~~~~~~~~~
+src/usb/usb_bootloader.c:46:22: warning: 'msc_device_desc' defined but not used [-Wunused-const-variable=]
+   46 | static const uint8_t msc_device_desc[] = {
+      |                      ^~~~~~~~~~~~~~~
+[CC] src/usb/usb_msc.c
+riscv-none-elf-gcc -march=rv32imac -mabi=ilp32 -msmall-data-limit=8 -Os -ffunction-sections -fdata-sections -fno-common -fno-exceptions -fshort-enums -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -DBUILD_TRACKER -DCH592 -DCH59X -DVERSION_MAJOR=0 -DVERSION_MINOR=4 -DVERSION_PATCH=2 -DMAX_TRACKERS=24 -DFLASH_SIZE=448K -DRAM_SIZE=26K -Iinclude -Isrc -Isdk/StdPeriphDriver/inc -Isdk/RVMSIS -Isdk/BLE/LIB -Isdk/BLE/HAL/include -flto -MMD -MP -c src/usb/usb_msc.c -o build/tracker/src/usb/usb_msc.o
+In file included from src/usb/usb_msc.c:17:
+include/ch59x_usb_regs.h:365:20: error: conflicting types for 'PFIC_EnableIRQ'; have 'void(uint32_t)' {aka 'void(long unsigned int)'}
+  365 | static inline void PFIC_EnableIRQ(uint32_t irq) {
+      |                    ^~~~~~~~~~~~~~
+In file included from src/usb/usb_msc.c:16:
+sdk/StdPeriphDriver/inc/CH59x_common.h:227:6: note: previous declaration of 'PFIC_EnableIRQ' with type 'void(IRQn_Type)'
+  227 | void PFIC_EnableIRQ(IRQn_Type irq);
+      |      ^~~~~~~~~~~~~~
+include/ch59x_usb_regs.h:372:20: error: conflicting types for 'PFIC_DisableIRQ'; have 'void(uint32_t)' {aka 'void(long unsigned int)'}
+  372 | static inline void PFIC_DisableIRQ(uint32_t irq) {
+      |                    ^~~~~~~~~~~~~~~
+sdk/StdPeriphDriver/inc/CH59x_common.h:228:6: note: previous declaration of 'PFIC_DisableIRQ' with type 'void(IRQn_Type)'
+  228 | void PFIC_DisableIRQ(IRQn_Type irq);
+      |      ^~~~~~~~~~~~~~~
+src/usb/usb_msc.c:458:1: warning: argument to 'interrupt' attribute is not '"user"', '"supervisor"', or '"machine"' [-Wattributes]
+  458 | {
+      | ^
+src/usb/usb_msc.c: In function 'USB_IRQHandler':
+src/usb/usb_msc.c:469:37: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+  469 |                     memcpy(ep0_buf, (void*)R16_UEP0_DMA, 8);
+      |                                     ^
+make: *** [Makefile:337: build/tracker/src/usb/usb_msc.o] Error 1
