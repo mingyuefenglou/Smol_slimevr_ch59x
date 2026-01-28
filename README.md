@@ -1,4 +1,4 @@
-# SlimeVR CH59X 移植固件
+# SlimeVR CH59X 移植项目
 
 # 目的：实现低成本的Smol SlimeVR方案
 
