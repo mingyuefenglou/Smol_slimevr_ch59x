@@ -37,7 +37,6 @@ Smol_slimevr_ch59x/
 ├── scripts/
 │   └── build/              # 构建脚本目录
 │       ├── build_complete.sh  # 完整构建脚本（功能最全）
-│       ├── build_complete.sh
 │       └── build_complete.ps1
 └── build.ps1               # Windows PowerShell 构建脚本
 ```

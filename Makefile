@@ -53,9 +53,9 @@ endif
 # Target chip: CH591 (default) or CH592
 CHIP ?= CH591
 
-# 板子选择: ch591d (默认) 或 ch592x
-# Board selection: ch591d (default) or ch592x
-BOARD ?= ch591d
+# 板子选择: mingyue_ch591d (默认), mingyue_ch592x, generic_board, generic_receiver
+# Board selection: mingyue_ch591d (default), mingyue_ch592x, generic_board, generic_receiver
+BOARD ?= mingyue_ch591d
 
 # 构建目录 / Build directory
 BUILD_DIR = build/$(TARGET)
@@ -271,16 +271,33 @@ ifeq ($(BOARD),generic_receiver)
 else ifeq ($(BOARD),generic_board)
     CHIP := CH592
     DEFINES += -DBOARD_GENERIC_BOARD
-else ifeq ($(BOARD),ch591d)
+else ifeq ($(BOARD),mingyue_ch591d)
     CHIP := CH591
+    DEFINES += -DBOARD_MINGYUE_CH591D
+    # Backward compatibility
+    DEFINES += -DBOARD_CH591D
+else ifeq ($(BOARD),mingyue_ch592x)
+    CHIP := CH592
+    DEFINES += -DBOARD_MINGYUE_CH592X
+    # Backward compatibility
+    DEFINES += -DBOARD_CH592X
+else ifeq ($(BOARD),ch591d)
+    # Backward compatibility: ch591d -> mingyue_ch591d
+    BOARD := mingyue_ch591d
+    CHIP := CH591
+    DEFINES += -DBOARD_MINGYUE_CH591D
     DEFINES += -DBOARD_CH591D
 else ifeq ($(BOARD),ch592x)
+    # Backward compatibility: ch592x -> mingyue_ch592x
+    BOARD := mingyue_ch592x
     CHIP := CH592
+    DEFINES += -DBOARD_MINGYUE_CH592X
     DEFINES += -DBOARD_CH592X
 else
-    # 默认使用 CH591D
-    BOARD := ch591d
+    # 默认使用 Mingyue CH591D
+    BOARD := mingyue_ch591d
     CHIP := CH591
+    DEFINES += -DBOARD_MINGYUE_CH591D
     DEFINES += -DBOARD_CH591D
 endif
 

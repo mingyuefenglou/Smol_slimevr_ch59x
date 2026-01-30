@@ -16,10 +16,10 @@ board/
 │   └── README.md              # Generic receiver configuration instructions
 └── mingyue_slimevr/            # 明月 SlimeVR 板子系列
     ├── README.md               # 系列说明
-    ├── ch591d/                 # CH591D 板子配置
+    ├── mingyue_ch591d/         # Mingyue CH591D 板子配置
     │   ├── config.h           # 主配置文件
     │   └── pins.h             # 引脚定义
-    └── ch592x/                 # CH592X 板子配置
+    └── mingyue_ch592x/         # Mingyue CH592X 板子配置
         ├── config.h           # 主配置文件
         └── pins.h             # 引脚定义
 ```
@@ -35,11 +35,16 @@ make TARGET=receiver BOARD=generic_receiver
 # Compile generic board (need to configure pins first)
 make TARGET=tracker BOARD=generic_board
 
-# 编译 CH591D 板子
-make TARGET=tracker BOARD=ch591d
+# 编译 Mingyue CH591D 板子
+make TARGET=tracker BOARD=mingyue_ch591d
 
-# 编译 CH592X 板子
-make TARGET=tracker BOARD=ch592x
+# 编译 Mingyue CH592X 板子
+make TARGET=tracker BOARD=mingyue_ch592x
+make TARGET=receiver BOARD=mingyue_ch592x
+
+# 向后兼容（旧命令仍然可用）
+make TARGET=tracker BOARD=ch591d  # 自动转换为 mingyue_ch591d
+make TARGET=tracker BOARD=ch592x  # 自动转换为 mingyue_ch592x
 
 # 或使用构建脚本
 ./build.sh tracker BOARD=generic_board
@@ -74,17 +79,17 @@ if (CHIP_TYPE == CH591) {
 - **Config File**: `board/generic_board/config.h`
 - **Features**: Pins undefined, need to configure according to actual hardware
 
-### CH591D
+### Mingyue CH591D
 - **芯片**: CH591
 - **封装**: 20-pin QFN
 - **用途**: 追踪器
-- **配置文件**: `board/mingyue_slimevr/ch591d/config.h`
+- **配置文件**: `board/mingyue_slimevr/mingyue_ch591d/config.h`
 
-### CH592X
+### Mingyue CH592X
 - **芯片**: CH592
 - **封装**: 28-pin QFN
 - **用途**: 追踪器/接收器
-- **配置文件**: `board/mingyue_slimevr/ch592x/config.h`
+- **配置文件**: `board/mingyue_slimevr/mingyue_ch592x/config.h`
 
 ## 配置内容
 
@@ -104,7 +109,7 @@ if (CHIP_TYPE == CH591) {
 
 如果新板子属于现有系列（如 mingyue_slimevr），在对应系列目录下添加：
 
-1. 在 `board/mingyue_slimevr/` 下创建新文件夹，如 `board/mingyue_slimevr/myboard/`
+1. 在 `board/mingyue_slimevr/` 下创建新文件夹，如 `board/mingyue_slimevr/mingyue_myboard/`（注意添加 mingyue_ 前缀）
 2. 创建 `config.h` 和 `pins.h`
 3. 在 `board/board.h` 中添加新板子的条件编译
 4. 在 `Makefile` 中添加板子选择逻辑

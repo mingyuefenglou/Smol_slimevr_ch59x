@@ -23,13 +23,13 @@ board/
 
 ### 2. 配置文件内容
 
-#### CH591D 配置 (`board/mingyue_slimevr/ch591d/config.h`)
+#### Mingyue CH591D 配置 (`board/mingyue_slimevr/mingyue_ch591d/config.h`)
 - 芯片类型: CH591
 - 引脚配置: 20-pin QFN
 - 支持功能: 追踪器
 - 包含所有必要的配置项
 
-#### CH592X 配置 (`board/mingyue_slimevr/ch592x/config.h`)
+#### Mingyue CH592X 配置 (`board/mingyue_slimevr/mingyue_ch592x/config.h`)
 - 芯片类型: CH592
 - 引脚配置: 28-pin QFN
 - 支持功能: 追踪器/接收器
@@ -54,8 +54,10 @@ board/
 ### 4. 统一入口文件
 
 `board/board.h` 根据编译时定义的宏自动包含对应板子的配置：
-- `BOARD_CH591D` → 包含 `mingyue_slimevr/ch591d/config.h` 和 `mingyue_slimevr/ch591d/pins.h`
-- `BOARD_CH592X` → 包含 `mingyue_slimevr/ch592x/config.h` 和 `mingyue_slimevr/ch592x/pins.h`
+- `BOARD_MINGYUE_CH591D` → 包含 `mingyue_slimevr/mingyue_ch591d/config.h` 和 `mingyue_slimevr/mingyue_ch591d/pins.h`
+- `BOARD_MINGYUE_CH592X` → 包含 `mingyue_slimevr/mingyue_ch592x/config.h` 和 `mingyue_slimevr/mingyue_ch592x/pins.h`
+- `BOARD_CH591D` → 向后兼容，自动转换为 `BOARD_MINGYUE_CH591D`
+- `BOARD_CH592X` → 向后兼容，自动转换为 `BOARD_MINGYUE_CH592X`
 
 ## 使用方法
 
@@ -63,20 +65,26 @@ board/
 
 ```bash
 # Tracker
-make TARGET=tracker BOARD=ch591d
+make TARGET=tracker BOARD=mingyue_ch591d
 
 # 或使用 make 命令（推荐）
-make TARGET=tracker BOARD=ch591d
+make TARGET=tracker BOARD=mingyue_ch591d
+
+# 向后兼容（旧命令仍然可用）
+make TARGET=tracker BOARD=ch591d  # 自动转换为 mingyue_ch591d
 ```
 
-### 编译 CH592X 板子
+### 编译 Mingyue CH592X 板子
 
 ```bash
 # Tracker
-make TARGET=tracker BOARD=ch592x
+make TARGET=tracker BOARD=mingyue_ch592x
 
 # Receiver
-make TARGET=receiver BOARD=ch592x
+make TARGET=receiver BOARD=mingyue_ch592x
+
+# 向后兼容（旧命令仍然可用）
+make TARGET=tracker BOARD=ch592x  # 自动转换为 mingyue_ch592x
 
 # 或使用构建脚本
 make TARGET=tracker BOARD=ch592x && make TARGET=receiver BOARD=ch592x

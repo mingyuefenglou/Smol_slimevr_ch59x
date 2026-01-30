@@ -41,19 +41,30 @@ ls -l output/bootloader_ch592.bin
 
 ```bash
 cd ..
-# 编译 Tracker (默认 CH591D 板子)
+# 编译 Tracker (默认 Mingyue CH591D 板子)
 make TARGET=tracker
 
 # 指定板子类型
-make TARGET=tracker BOARD=ch591d    # CH591D 板子
-make TARGET=tracker BOARD=ch592x   # CH592X 板子
+make TARGET=tracker BOARD=mingyue_ch591d    # Mingyue CH591D 板子
+make TARGET=tracker BOARD=mingyue_ch592x   # Mingyue CH592X 板子
+make TARGET=tracker BOARD=generic_board     # 通用板子（需配置引脚）
+
+# 向后兼容（旧命令仍然可用）
+make TARGET=tracker BOARD=ch591d  # 自动转换为 mingyue_ch591d
+make TARGET=tracker BOARD=ch592x  # 自动转换为 mingyue_ch592x
 ```
 
 ### 3. 编译 Receiver 固件
 
 ```bash
-# 编译 Receiver (CH592X 板子)
-make TARGET=receiver BOARD=ch592x
+# 编译 Receiver (Mingyue CH592X 板子)
+make TARGET=receiver BOARD=mingyue_ch592x
+
+# 编译通用 Receiver
+make TARGET=receiver BOARD=generic_receiver
+
+# 向后兼容（旧命令仍然可用）
+make TARGET=receiver BOARD=ch592x  # 自动转换为 mingyue_ch592x
 ```
 
 ### 4. 合并固件

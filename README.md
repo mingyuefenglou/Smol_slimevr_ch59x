@@ -540,9 +540,15 @@ make TARGET=tracker
 make TARGET=receiver
 
 # 指定板子类型
-make TARGET=tracker BOARD=ch591d    # CH591D 板子
-make TARGET=tracker BOARD=ch592x   # CH592X 板子
-make TARGET=tracker BOARD=generic_board  # 通用板子（需配置引脚）
+make TARGET=tracker BOARD=mingyue_ch591d    # Mingyue CH591D 板子
+make TARGET=tracker BOARD=mingyue_ch592x   # Mingyue CH592X 板子
+make TARGET=receiver BOARD=mingyue_ch592x  # Mingyue CH592X Receiver
+make TARGET=tracker BOARD=generic_board     # 通用板子（需配置引脚）
+make TARGET=receiver BOARD=generic_receiver # 通用 Receiver（需配置引脚）
+
+# 向后兼容（旧命令仍然可用）
+make TARGET=tracker BOARD=ch591d  # 自动转换为 mingyue_ch591d
+make TARGET=tracker BOARD=ch592x  # 自动转换为 mingyue_ch592x
 
 # 清理构建文件
 make clean

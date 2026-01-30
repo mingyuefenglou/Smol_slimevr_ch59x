@@ -20,10 +20,10 @@ board/
 │   └── README.md             # Generic receiver configuration instructions
 └── mingyue_slimevr/            # 明月 SlimeVR 板子系列
     ├── README.md               # 系列说明
-    ├── ch591d/                 # CH591D 板子配置
+    ├── mingyue_ch591d/         # Mingyue CH591D 板子配置
     │   ├── config.h           # 主配置文件（芯片、IMU、RF、引脚等）
     │   └── pins.h              # 引脚定义（ADC、PWM、UART映射等）
-    └── ch592x/                 # CH592X 板子配置
+    └── mingyue_ch592x/         # Mingyue CH592X 板子配置
         ├── config.h           # 主配置文件
         └── pins.h             # 引脚定义
 ```
@@ -39,14 +39,18 @@ make TARGET=receiver BOARD=generic_receiver
 # Compile generic board (need to configure pins first)
 make TARGET=tracker BOARD=generic_board
 
-# 编译 CH591D 板子的 Tracker
-make TARGET=tracker BOARD=ch591d
+# 编译 Mingyue CH591D 板子的 Tracker
+make TARGET=tracker BOARD=mingyue_ch591d
 
-# 编译 CH592X 板子的 Tracker
-make TARGET=tracker BOARD=ch592x
+# 编译 Mingyue CH592X 板子的 Tracker
+make TARGET=tracker BOARD=mingyue_ch592x
 
-# 编译 CH592X 板子的 Receiver
-make TARGET=receiver BOARD=ch592x
+# 编译 Mingyue CH592X 板子的 Receiver
+make TARGET=receiver BOARD=mingyue_ch592x
+
+# 向后兼容（旧命令仍然可用）
+make TARGET=tracker BOARD=ch591d  # 自动转换为 mingyue_ch591d
+make TARGET=tracker BOARD=ch592x  # 自动转换为 mingyue_ch592x
 
 # 使用 make 命令（推荐）
 make TARGET=tracker BOARD=generic_board
@@ -90,18 +94,18 @@ make TARGET=tracker BOARD=generic_board
 
 ## 支持的板子
 
-### CH591D
+### Mingyue CH591D
 - **芯片**: CH591
 - **封装**: 20-pin QFN
 - **用途**: 追踪器
-- **配置文件**: `board/mingyue_slimevr/ch591d/config.h`
+- **配置文件**: `board/mingyue_slimevr/mingyue_ch591d/config.h`
 - **特点**: 成本低，内存较小
 
-### CH592X
+### Mingyue CH592X
 - **芯片**: CH592
 - **封装**: 28-pin QFN
 - **用途**: 追踪器/接收器
-- **配置文件**: `board/mingyue_slimevr/ch592x/config.h`
+- **配置文件**: `board/mingyue_slimevr/mingyue_ch592x/config.h`
 - **特点**: 功能完整，内存更大
 
 ## 代码中使用配置
@@ -128,31 +132,31 @@ void check_battery(void) {
 
 如果新板子属于 mingyue_slimevr 系列：
 
-1. **创建板子目录**
+1. **创建板子目录**（注意添加 mingyue_ 前缀）
    ```bash
-   mkdir -p board/mingyue_slimevr/myboard
+   mkdir -p board/mingyue_slimevr/mingyue_myboard
    ```
 
 2. **创建配置文件**
-   - `board/mingyue_slimevr/myboard/config.h` - 主配置
-   - `board/mingyue_slimevr/myboard/pins.h` - 引脚定义
+   - `board/mingyue_slimevr/mingyue_myboard/config.h` - 主配置
+   - `board/mingyue_slimevr/mingyue_myboard/pins.h` - 引脚定义
 
 3. **更新 board.h**
    在 `board/board.h` 中添加：
    ```c
-   #elif defined(BOARD_MYBOARD)
-       #include "mingyue_slimevr/myboard/config.h"
-       #include "mingyue_slimevr/myboard/pins.h"
-       #define BOARD_NAME "MYBOARD"
+   #elif defined(BOARD_MINGYUE_MYBOARD)
+       #include "mingyue_slimevr/mingyue_myboard/config.h"
+       #include "mingyue_slimevr/mingyue_myboard/pins.h"
+       #define BOARD_NAME "Mingyue MYBOARD"
        #define BOARD_SERIES "mingyue_slimevr"
    ```
 
 4. **更新 Makefile**
    在 `Makefile` 中添加：
    ```makefile
-   else ifeq ($(BOARD),myboard)
+   else ifeq ($(BOARD),mingyue_myboard)
        CHIP := CH592
-       DEFINES += -DBOARD_MYBOARD
+       DEFINES += -DBOARD_MINGYUE_MYBOARD
    ```
 
 ### 添加新系列

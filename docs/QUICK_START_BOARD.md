@@ -8,12 +8,16 @@
 # Generic board (need to configure pins first)
 make TARGET=tracker BOARD=generic_board
 
-# CH591D 板子
-make TARGET=tracker BOARD=ch591d
+# Mingyue CH591D 板子
+make TARGET=tracker BOARD=mingyue_ch591d
 
-# CH592X 板子
-make TARGET=tracker BOARD=ch592x
-make TARGET=receiver BOARD=ch592x
+# Mingyue CH592X 板子
+make TARGET=tracker BOARD=mingyue_ch592x
+make TARGET=receiver BOARD=mingyue_ch592x
+
+# 向后兼容（旧命令仍然可用）
+make TARGET=tracker BOARD=ch591d  # 自动转换为 mingyue_ch591d
+make TARGET=tracker BOARD=ch592x  # 自动转换为 mingyue_ch592x
 
 # 使用 make 命令（推荐）
 make TARGET=tracker BOARD=generic_board
@@ -27,11 +31,11 @@ make TARGET=tracker BOARD=generic_board
 # Modify generic board configuration (need to configure pins)
 vim board/generic_board/config.h
 
-# 修改 CH591D 配置
-vim board/mingyue_slimevr/ch591d/config.h
+# 修改 Mingyue CH591D 配置
+vim board/mingyue_slimevr/mingyue_ch591d/config.h
 
-# 修改 CH592X 配置
-vim board/mingyue_slimevr/ch592x/config.h
+# 修改 Mingyue CH592X 配置
+vim board/mingyue_slimevr/mingyue_ch592x/config.h
 ```
 
 ### 常用配置修改
@@ -64,8 +68,8 @@ vim board/mingyue_slimevr/ch592x/config.h
 ## 配置文件位置
 
 - **Generic Board**: `board/generic_board/config.h` (need to configure pins)
-- **CH591D**: `board/mingyue_slimevr/ch591d/config.h`
-- **CH592X**: `board/mingyue_slimevr/ch592x/config.h`
+- **Mingyue CH591D**: `board/mingyue_slimevr/mingyue_ch591d/config.h`
+- **Mingyue CH592X**: `board/mingyue_slimevr/mingyue_ch592x/config.h`
 - **统一入口**: `board/board.h` (代码中应包含此文件)
 
 ## 注意事项

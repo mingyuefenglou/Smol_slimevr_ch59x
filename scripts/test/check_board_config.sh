@@ -60,25 +60,44 @@ case "$BOARD" in
             echo "✓ board/generic_board/pins.h exists"
         fi
         ;;
-    ch591d)
-        if [ ! -f "$BOARD_DIR/mingyue_slimevr/ch591d/config.h" ]; then
-            echo "✗ ERROR: board/mingyue_slimevr/ch591d/config.h not found"
+    mingyue_ch591d)
+        if [ ! -f "$BOARD_DIR/mingyue_slimevr/mingyue_ch591d/config.h" ]; then
+            echo "✗ ERROR: board/mingyue_slimevr/mingyue_ch591d/config.h not found"
             exit 1
         else
-            echo "✓ board/mingyue_slimevr/ch591d/config.h exists"
+            echo "✓ board/mingyue_slimevr/mingyue_ch591d/config.h exists"
+        fi
+        ;;
+    mingyue_ch592x)
+        if [ ! -f "$BOARD_DIR/mingyue_slimevr/mingyue_ch592x/config.h" ]; then
+            echo "✗ ERROR: board/mingyue_slimevr/mingyue_ch592x/config.h not found"
+            exit 1
+        else
+            echo "✓ board/mingyue_slimevr/mingyue_ch592x/config.h exists"
+        fi
+        ;;
+    ch591d)
+        # Backward compatibility
+        if [ ! -f "$BOARD_DIR/mingyue_slimevr/mingyue_ch591d/config.h" ]; then
+            echo "✗ ERROR: board/mingyue_slimevr/mingyue_ch591d/config.h not found"
+            exit 1
+        else
+            echo "✓ board/mingyue_slimevr/mingyue_ch591d/config.h exists (via ch591d)"
         fi
         ;;
     ch592x)
-        if [ ! -f "$BOARD_DIR/mingyue_slimevr/ch592x/config.h" ]; then
-            echo "✗ ERROR: board/mingyue_slimevr/ch592x/config.h not found"
+        # Backward compatibility
+        if [ ! -f "$BOARD_DIR/mingyue_slimevr/mingyue_ch592x/config.h" ]; then
+            echo "✗ ERROR: board/mingyue_slimevr/mingyue_ch592x/config.h not found"
             exit 1
         else
-            echo "✓ board/mingyue_slimevr/ch592x/config.h exists"
+            echo "✓ board/mingyue_slimevr/mingyue_ch592x/config.h exists (via ch592x)"
         fi
         ;;
     *)
         echo "✗ ERROR: Unknown board: $BOARD"
-        echo "Supported boards: generic_receiver, generic_board, ch591d, ch592x"
+        echo "Supported boards: generic_receiver, generic_board, mingyue_ch591d, mingyue_ch592x"
+        echo "Backward compatibility: ch591d, ch592x"
         exit 1
         ;;
 esac
@@ -105,21 +124,34 @@ if grep -q "BOARD_GENERIC_BOARD" "$BOARD_DIR/board.h"; then
     fi
 fi
 
-if grep -q "BOARD_CH591D" "$BOARD_DIR/board.h"; then
-    if grep -q "mingyue_slimevr/ch591d/config.h" "$BOARD_DIR/board.h"; then
-        echo "✓ BOARD_CH591D includes mingyue_slimevr/ch591d/config.h"
+if grep -q "BOARD_MINGYUE_CH591D" "$BOARD_DIR/board.h"; then
+    if grep -q "mingyue_slimevr/mingyue_ch591d/config.h" "$BOARD_DIR/board.h"; then
+        echo "✓ BOARD_MINGYUE_CH591D includes mingyue_slimevr/mingyue_ch591d/config.h"
     else
-        echo "✗ ERROR: BOARD_CH591D should include mingyue_slimevr/ch591d/config.h"
+        echo "✗ ERROR: BOARD_MINGYUE_CH591D should include mingyue_slimevr/mingyue_ch591d/config.h"
         exit 1
     fi
 fi
 
-if grep -q "BOARD_CH592X" "$BOARD_DIR/board.h"; then
-    if grep -q "mingyue_slimevr/ch592x/config.h" "$BOARD_DIR/board.h"; then
-        echo "✓ BOARD_CH592X includes mingyue_slimevr/ch592x/config.h"
+if grep -q "BOARD_MINGYUE_CH592X" "$BOARD_DIR/board.h"; then
+    if grep -q "mingyue_slimevr/mingyue_ch592x/config.h" "$BOARD_DIR/board.h"; then
+        echo "✓ BOARD_MINGYUE_CH592X includes mingyue_slimevr/mingyue_ch592x/config.h"
     else
-        echo "✗ ERROR: BOARD_CH592X should include mingyue_slimevr/ch592x/config.h"
+        echo "✗ ERROR: BOARD_MINGYUE_CH592X should include mingyue_slimevr/mingyue_ch592x/config.h"
         exit 1
+    fi
+fi
+
+# Backward compatibility checks
+if grep -q "BOARD_CH591D" "$BOARD_DIR/board.h"; then
+    if grep -q "mingyue_slimevr/mingyue_ch591d/config.h" "$BOARD_DIR/board.h"; then
+        echo "✓ BOARD_CH591D (backward compat) includes mingyue_slimevr/mingyue_ch591d/config.h"
+    fi
+fi
+
+if grep -q "BOARD_CH592X" "$BOARD_DIR/board.h"; then
+    if grep -q "mingyue_slimevr/mingyue_ch592x/config.h" "$BOARD_DIR/board.h"; then
+        echo "✓ BOARD_CH592X (backward compat) includes mingyue_slimevr/mingyue_ch592x/config.h"
     fi
 fi
 

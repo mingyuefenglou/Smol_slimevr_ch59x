@@ -6,18 +6,18 @@
 
 ## 支持的板子
 
-### CH591D
+### Mingyue CH591D
 - **芯片**: CH591
 - **封装**: 20-pin QFN
 - **用途**: 追踪器
-- **配置文件**: `ch591d/config.h`
+- **配置文件**: `mingyue_ch591d/config.h`
 - **特点**: 成本低，内存较小（18KB RAM, 256KB Flash）
 
-### CH592X
+### Mingyue CH592X
 - **芯片**: CH592
 - **封装**: 28-pin QFN
 - **用途**: 追踪器/接收器
-- **配置文件**: `ch592x/config.h`
+- **配置文件**: `mingyue_ch592x/config.h`
 - **特点**: 功能完整，内存更大（26KB RAM, 448KB Flash）
 
 ## 使用方法
@@ -25,12 +25,16 @@
 ### 编译指定板子
 
 ```bash
-# CH591D 板子
-make TARGET=tracker BOARD=ch591d
+# Mingyue CH591D 板子
+make TARGET=tracker BOARD=mingyue_ch591d
 
-# CH592X 板子
-make TARGET=tracker BOARD=ch592x
-make TARGET=receiver BOARD=ch592x
+# Mingyue CH592X 板子
+make TARGET=tracker BOARD=mingyue_ch592x
+make TARGET=receiver BOARD=mingyue_ch592x
+
+# 向后兼容（旧命令仍然可用）
+make TARGET=tracker BOARD=ch591d  # 自动转换为 mingyue_ch591d
+make TARGET=tracker BOARD=ch592x  # 自动转换为 mingyue_ch592x
 ```
 
 ### 修改配置
@@ -38,11 +42,11 @@ make TARGET=receiver BOARD=ch592x
 编辑对应板子的配置文件：
 
 ```bash
-# 修改 CH591D 配置
-vim ch591d/config.h
+# 修改 Mingyue CH591D 配置
+vim mingyue_ch591d/config.h
 
-# 修改 CH592X 配置
-vim ch592x/config.h
+# 修改 Mingyue CH592X 配置
+vim mingyue_ch592x/config.h
 ```
 
 ## 配置内容

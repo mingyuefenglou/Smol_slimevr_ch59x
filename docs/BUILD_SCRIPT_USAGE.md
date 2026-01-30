@@ -22,15 +22,20 @@ make clean
 ### Specify Board Type
 
 ```bash
-# CH591D board
-make TARGET=tracker BOARD=ch591d
+# Mingyue CH591D board
+make TARGET=tracker BOARD=mingyue_ch591d
 
-# CH592X board
-make TARGET=tracker BOARD=ch592x
-make TARGET=receiver BOARD=ch592x
+# Mingyue CH592X board
+make TARGET=tracker BOARD=mingyue_ch592x
+make TARGET=receiver BOARD=mingyue_ch592x
 
 # Generic board (need to configure pins)
 make TARGET=tracker BOARD=generic_board
+make TARGET=receiver BOARD=generic_receiver
+
+# Backward compatibility (old commands still work)
+make TARGET=tracker BOARD=ch591d  # Auto-converts to mingyue_ch591d
+make TARGET=tracker BOARD=ch592x  # Auto-converts to mingyue_ch592x
 ```
 
 ### Examples
@@ -82,9 +87,12 @@ make TARGET=tracker BOARD=ch592x
 
 | Option | Description | Example |
 |--------|-------------|---------|
-| `BOARD=ch591d` | CH591D board (20-pin QFN) | `make TARGET=tracker BOARD=ch591d` |
-| `BOARD=ch592x` | CH592X board (28-pin QFN) | `make TARGET=tracker BOARD=ch592x` |
+| `BOARD=mingyue_ch591d` | Mingyue CH591D board (20-pin QFN) | `make TARGET=tracker BOARD=mingyue_ch591d` |
+| `BOARD=mingyue_ch592x` | Mingyue CH592X board (28-pin QFN) | `make TARGET=tracker BOARD=mingyue_ch592x` |
 | `BOARD=generic_board` | Generic board (pins undefined) | `make TARGET=tracker BOARD=generic_board` |
+| `BOARD=generic_receiver` | Generic receiver (pins undefined) | `make TARGET=receiver BOARD=generic_receiver` |
+| `BOARD=ch591d` | Backward compatibility (auto-converts to mingyue_ch591d) | `make TARGET=tracker BOARD=ch591d` |
+| `BOARD=ch592x` | Backward compatibility (auto-converts to mingyue_ch592x) | `make TARGET=tracker BOARD=ch592x` |
 
 ### Other Options
 
@@ -173,6 +181,6 @@ If you were using `./build.sh`, migrate to `make`:
 
 **New way:**
 ```bash
-make TARGET=tracker BOARD=ch591d
-make TARGET=receiver BOARD=ch592x
+make TARGET=tracker BOARD=mingyue_ch591d
+make TARGET=receiver BOARD=mingyue_ch592x
 ```
