@@ -748,8 +748,9 @@ static void read_battery(void)
     adc_val = ADC_ExcutSingleConver();
 #endif
     
-    // 转换为电压 (假设分压比 2:1, 参考电压 1.2V)
-    float voltage = (adc_val / 4096.0f) * 1.2f * 2.0f;
+    // 转换为电压 (按分压电阻与参考电压计算)
+    const float divider_ratio = (VBAT_DIVIDER_R1_OHMS + VBAT_DIVIDER_R2_OHMS) / VBAT_DIVIDER_R2_OHMS;
+    float voltage = (adc_val / 4096.0f) * ADC_REF_VOLTAGE * divider_ratio;
     
     // 电量估算 (3.0V-4.2V 线性)
     // P0-6: 添加范围钳位防止截断

@@ -151,15 +151,21 @@
 #define PIN_CHRG_DET        10      // PA10 (Pin 2) - 连接 TP4054 CHRG 引脚
 #define PIN_CHRG_DET_PORT   GPIOA
 
+// USB 连接检测 (CH591D 无专用 VBUS 检测脚，复用 CHRG)
+// 插入 USB 时 CHRG 会有状态变化，可用于判断 USB 连接
+#define PIN_USB_VBUS        PIN_CHRG_DET
+
+// 电池检测分压电阻 (单位: 欧姆)
+// 实际电压 = ADC电压 * (R1 + R2) / R2
+#define VBAT_DIVIDER_R1_OHMS 100000.0f  // 上拉电阻
+#define VBAT_DIVIDER_R2_OHMS 100000.0f  // 下拉电阻
+#define ADC_REF_VOLTAGE      1.2f       // CH59x ADC 参考电压 (V)
+
 // ADC 输入 (连接到 Pin 6)
 // 原理图 ADC 信号连接到实际的 PA8
 #define PIN_ADC_INPUT       8       // PA8 (Pin 6) - ADC/电池检测
 #define PIN_ADC_CHANNEL     12      // PA8 对应 ADC 通道 AIN12
 #define PIN_VBAT_ADC_CHANNEL 12     // 统一使用: PA8 -> AIN12
-
-// USB 电源检测 (如果使用)
-// 注意：CH591D没有专门的USB VBUS检测引脚，需要外部电路
-// #define PIN_USB_VBUS        10      // 根据实际硬件配置
 
 // I2C 备用接口 (当使用 I2C 连接 IMU 时)
 // CH591D 没有 PB22/PB23，这些是 CH592 的引脚
@@ -178,9 +184,6 @@
 // RST 引脚 (连接到 Pin 10)
 // HAL 引脚编码: PB7 = 23
 #define PIN_RST             23      // PB7 (Pin 10)
-
-// RST 引脚 (连接到 Pin 10)
-#define PIN_RST             7       // PB7 (Pin 10)
 
 /*============================================================================
  * 电源管理配置 / Power Management Configuration
