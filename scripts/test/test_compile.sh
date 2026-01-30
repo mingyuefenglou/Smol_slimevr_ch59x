@@ -5,8 +5,8 @@ echo "=== Syntax Check with Host GCC ==="
 
 GCC=gcc
 CFLAGS="-c -Wall -Wextra -Werror -fsyntax-only"
-CFLAGS="$CFLAGS -Iinclude -Isdk/StdPeriphDriver/inc -Isdk/RVMSIS -Isdk/BLE/LIB -Isdk/BLE/HAL/include"
-CFLAGS="$CFLAGS -DCH59X -DBUILD_TRACKER"
+CFLAGS="$CFLAGS -Iinclude -Iboard -Isdk/StdPeriphDriver/inc -Isdk/RVMSIS -Isdk/BLE/LIB -Isdk/BLE/HAL/include"
+CFLAGS="$CFLAGS -DCH59X -DBUILD_TRACKER -DBOARD_CH591D"
 
 # Critical source files
 SOURCES="
