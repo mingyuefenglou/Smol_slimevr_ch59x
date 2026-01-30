@@ -170,7 +170,7 @@ find_toolchain() {
 
 build_target() {
     local target=$1
-    local chip=${2:-CH592}
+    local chip=${2:-CH591}
     
     log_step "编译 ${target} 固件 (${chip})..."
     
@@ -337,7 +337,7 @@ SlimeVR CH592/CH591 固件编译脚本 v2.0
     update <path>   从指定路径更新 SlimeVR 源码 / Update SlimeVR source
 
 选项 / Options:
-    --chip <chip>   目标芯片 (CH591/CH592, 默认 CH592)
+    --chip <chip>   目标芯片 (CH591/CH592, 默认 CH591)
     --help          显示帮助 / Show help
 
 示例 / Examples:
@@ -367,7 +367,7 @@ load_version
 create_uf2_tool
 
 # 默认芯片
-CHIP="CH592"
+CHIP="CH591"
 
 # 解析参数
 while [[ $# -gt 0 ]]; do

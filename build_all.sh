@@ -35,7 +35,7 @@ NC='\033[0m'
 
 # 默认配置
 TARGET="all"
-MCU="CH592"
+MCU="CH591"
 DEBUG=0
 MERGE_BOOT=1
 PREFIX="riscv-none-elf-"
