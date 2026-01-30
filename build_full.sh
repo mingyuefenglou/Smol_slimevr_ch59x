@@ -37,7 +37,7 @@ NC='\033[0m'
 
 # 默认配置
 TARGET="all"
-CHIP="CH592"
+CHIP="CH591"
 VERSION=""
 CLEAN=false
 MERGE=true
@@ -86,7 +86,7 @@ show_help() {
     echo ""
     echo "选项:"
     echo "  -t, --target TARGET   指定目标 (all/tracker/receiver/bootloader)"
-    echo "  -c, --chip CHIP       指定芯片 (CH591/CH592，默认 CH592)"
+    echo "  -c, --chip CHIP       指定芯片 (CH591/CH592，默认 CH591)"
     echo "  -v, --version VER     指定版本号"
     echo "  --clean               清理后编译"
     echo "  --no-merge            不合并 Bootloader 到 HEX"

@@ -144,18 +144,18 @@ static void jump_to_app(void)
 
 static void enter_dfu_mode(void)
 {
-    /* LED 指示灯 (PA8) */
-    R32_PA_DIR |= (1 << 8);  /* 输出模式 */
+    /* LED 指示灯 (PA9) */
+    R32_PA_DIR |= (1 << 9);  /* 输出模式 */
     
     /* 简单的等待循环，闪烁 LED */
     /* 在实际实现中，这里应该是 USB MSC 处理 */
     while (1) {
         /* LED 亮 */
-        R32_PA_PIN |= (1 << 8);
+        R32_PA_PIN |= (1 << 9);
         delay_ms(200);
         
         /* LED 灭 */
-        R32_PA_PIN &= ~(1 << 8);
+        R32_PA_PIN &= ~(1 << 9);
         delay_ms(200);
         
         /* 重新检查应用有效性 (可能通过其他方式更新了 Flash) */

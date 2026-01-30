@@ -123,15 +123,16 @@
 
 // 用户按键 SW0 (原理图连接到 Pin 11)
 // 注意：原理图 Pin 11 标签显示 PB7，但实际是 PB4！
-#define PIN_SW0             4       // PB4 (Pin 11) - 原理图标签错误!
+// HAL 引脚编码: PA0-PA15=0-15, PB0-PB23=16-39，因此 PB4 = 20
+#define PIN_SW0             20      // PB4 (Pin 11) - 原理图标签错误!
 #define PIN_SW0_PORT        GPIOB
 #define PIN_SW1             PIN_SW0 // 兼容旧代码
 
-// IMU SPI 接口
-#define PIN_SPI_CS          4       // PA4  - 片选 (可修改)
-#define PIN_SPI_CLK         12      // PA12 - 时钟 (硬件固定, 不可修改)
-#define PIN_SPI_MOSI        13      // PA13 - 数据输出 (硬件固定, 不可修改)
-#define PIN_SPI_MISO        14      // PA14 - 数据输入 (硬件固定, 不可修改)
+// IMU SPI 接口 (CH591D 20-pin 实际连接)
+#define PIN_SPI_CS          12      // PA12 - 片选 (硬件固定)
+#define PIN_SPI_CLK         13      // PA13 - 时钟 (硬件固定)
+#define PIN_SPI_MOSI        14      // PA14 - 数据输出 (硬件固定)
+#define PIN_SPI_MISO        15      // PA15 - 数据输入 (硬件固定)
 
 // IMU 中断引脚
 // INT1 连接到 Pin 1 (PA11)
@@ -150,15 +151,21 @@
 #define PIN_CHRG_DET        10      // PA10 (Pin 2) - 连接 TP4054 CHRG 引脚
 #define PIN_CHRG_DET_PORT   GPIOA
 
+// USB 连接检测 (CH591D 无专用 VBUS 检测脚，复用 CHRG)
+// 插入 USB 时 CHRG 会有状态变化，可用于判断 USB 连接
+#define PIN_USB_VBUS        PIN_CHRG_DET
+
+// 电池检测分压电阻 (单位: 欧姆)
+// 实际电压 = ADC电压 * (R1 + R2) / R2
+#define VBAT_DIVIDER_R1_OHMS 100000.0f  // 上拉电阻
+#define VBAT_DIVIDER_R2_OHMS 100000.0f  // 下拉电阻
+#define ADC_REF_VOLTAGE      1.2f       // CH59x ADC 参考电压 (V)
+
 // ADC 输入 (连接到 Pin 6)
 // 原理图 ADC 信号连接到实际的 PA8
 #define PIN_ADC_INPUT       8       // PA8 (Pin 6) - ADC/电池检测
 #define PIN_ADC_CHANNEL     12      // PA8 对应 ADC 通道 AIN12
 #define PIN_VBAT_ADC_CHANNEL 12     // 统一使用: PA8 -> AIN12
-
-// USB 电源检测 (如果使用)
-// 注意：CH591D没有专门的USB VBUS检测引脚，需要外部电路
-// #define PIN_USB_VBUS        10      // 根据实际硬件配置
 
 // I2C 备用接口 (当使用 I2C 连接 IMU 时)
 // CH591D 没有 PB22/PB23，这些是 CH592 的引脚
@@ -172,7 +179,11 @@
 
 // BOOT/SW0 按键 (连接到 Pin 11)
 // 实际是 PB4，用于进入 Bootloader
-#define PIN_BOOT            4       // PB4 (Pin 11)
+#define PIN_BOOT            20      // PB4 (Pin 11)
+
+// RST 引脚 (连接到 Pin 10)
+// HAL 引脚编码: PB7 = 23
+#define PIN_RST             23      // PB7 (Pin 10)
 
 /*============================================================================
  * 电源管理配置 / Power Management Configuration

@@ -6,7 +6,7 @@
  * 
  * 硬件说明 / Hardware Note:
  * - 充电 LED 由 TP4054 CHRG 引脚直接控制
- * - CH591D 仅通过 PA5 检测充电状态
+ * - CH591D 仅通过 PA10 (CHRG) 检测充电状态
  * - 不需要 MCU 控制 LED
  * 
  * TP4054 CHRG 引脚:
@@ -54,11 +54,15 @@ static struct {
 void hal_charging_init(void)
 {
 #ifdef CH59X
-    // PA5: 输入, 内部上拉 (检测 TP4054 CHRG)
-    GPIOA_ModeCfg(GPIO_Pin_5, GPIO_ModeIN_PU);
-    
-    // PA10: 输入, 内部下拉 (检测 USB VBUS, 可选)
-    GPIOA_ModeCfg(GPIO_Pin_10, GPIO_ModeIN_PD);
+    // CHRG: 输入, 内部上拉 (检测 TP4054 CHRG)
+    hal_gpio_config(PIN_CHRG_DET, HAL_GPIO_INPUT_PULLUP);
+
+    // USB VBUS: 默认下拉检测，如果复用 CHRG 则保持上拉
+    if (PIN_USB_VBUS == PIN_CHRG_DET) {
+        hal_gpio_config(PIN_USB_VBUS, HAL_GPIO_INPUT_PULLUP);
+    } else {
+        hal_gpio_config(PIN_USB_VBUS, HAL_GPIO_INPUT_PULLDOWN);
+    }
 #endif
     
     chrg_state.charging = 0;
@@ -75,7 +79,7 @@ uint8_t hal_charging_is_charging(void)
 {
 #ifdef CH59X
     // TP4054 CHRG 引脚: 充电时拉低
-    return (GPIOA_ReadPortPin(GPIO_Pin_5) == 0) ? 1 : 0;
+    return (hal_gpio_read(PIN_CHRG_DET) == 0) ? 1 : 0;
 #else
     return 0;
 #endif
@@ -88,7 +92,7 @@ uint8_t hal_charging_usb_connected(void)
 {
 #ifdef CH59X
     // USB VBUS 检测 (5V 存在)
-    return (GPIOA_ReadPortPin(GPIO_Pin_10) != 0) ? 1 : 0;
+    return (hal_gpio_read(PIN_USB_VBUS) != 0) ? 1 : 0;
 #else
     return 0;
 #endif

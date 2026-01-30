@@ -60,6 +60,48 @@
 #ifdef CH59X
 #include "CH59x_common.h"
 #include "CH59x_adc.h"
+#include "CH59x_gpio.h"
+#endif
+
+#ifdef CH59X
+static inline bool is_port_a_pin(uint8_t pin)
+{
+    return pin < 16;
+}
+
+static inline uint32_t gpio_pin_mask(uint8_t pin)
+{
+    return 1UL << (pin & 0x0F);
+}
+
+static void gpio_config_input(uint8_t pin, GPIOModeTypeDef mode)
+{
+    if (is_port_a_pin(pin)) {
+        GPIOA_ModeCfg(gpio_pin_mask(pin), mode);
+    } else {
+        GPIOB_ModeCfg(gpio_pin_mask(pin), mode);
+    }
+}
+
+static void gpio_config_interrupt(uint8_t pin, GPIOITModeTpDef mode)
+{
+    if (is_port_a_pin(pin)) {
+        GPIOA_ITModeCfg(gpio_pin_mask(pin), mode);
+        PFIC_EnableIRQ(GPIO_A_IRQn);
+    } else {
+        GPIOB_ITModeCfg(gpio_pin_mask(pin), mode);
+        PFIC_EnableIRQ(GPIO_B_IRQn);
+    }
+}
+
+static void gpio_disable_interrupt(uint8_t pin)
+{
+    if (is_port_a_pin(pin)) {
+        PFIC_DisableIRQ(GPIO_A_IRQn);
+    } else {
+        PFIC_DisableIRQ(GPIO_B_IRQn);
+    }
+}
 #endif
 
 /*============================================================================
@@ -706,8 +748,9 @@ static void read_battery(void)
     adc_val = ADC_ExcutSingleConver();
 #endif
     
-    // 转换为电压 (假设分压比 2:1, 参考电压 1.2V)
-    float voltage = (adc_val / 4096.0f) * 1.2f * 2.0f;
+    // 转换为电压 (按分压电阻与参考电压计算)
+    const float divider_ratio = (VBAT_DIVIDER_R1_OHMS + VBAT_DIVIDER_R2_OHMS) / VBAT_DIVIDER_R2_OHMS;
+    float voltage = (adc_val / 4096.0f) * ADC_REF_VOLTAGE * divider_ratio;
     
     // 电量估算 (3.0V-4.2V 线性)
     // P0-6: 添加范围钳位防止截断
@@ -766,13 +809,12 @@ static void enter_deep_sleep(void)
     // 配置WOM唤醒
     configure_wom_wake();
     
-    // 配置IMU INT引脚为唤醒源 (假设使用PA4)
-    GPIOA_ModeCfg(GPIO_Pin_4, GPIO_ModeIN_PD);  // 下拉，高电平唤醒
-    GPIOA_ITModeCfg(GPIO_Pin_4, GPIO_ITMode_RiseEdge);
-    PFIC_EnableIRQ(GPIO_A_IRQn);
+    // 配置IMU INT引脚为唤醒源
+    gpio_config_input(PIN_IMU_INT1, GPIO_ModeIN_PD);  // 下拉，高电平唤醒
+    gpio_config_interrupt(PIN_IMU_INT1, GPIO_ITMode_RiseEdge);
     
     // 同时配置按键作为备用唤醒源
-    GPIOA_ModeCfg(PIN_SW0 & 0xFF, GPIO_ModeIN_PU);
+    gpio_config_input(PIN_SW0, GPIO_ModeIN_PU);
     
     // 进入 Shutdown 模式 (最低功耗，复位唤醒)
     LowPower_Shutdown(0);
@@ -790,15 +832,14 @@ static void enter_light_sleep(void)
     
 #ifdef CH59X
     // 配置唤醒源 (按键)
-    GPIOA_ModeCfg(PIN_SW0 & 0xFF, GPIO_ModeIN_PU);
-    GPIOA_ITModeCfg(PIN_SW0 & 0xFF, GPIO_ITMode_FallEdge);
-    PFIC_EnableIRQ(GPIO_A_IRQn);
+    gpio_config_input(PIN_SW0, GPIO_ModeIN_PU);
+    gpio_config_interrupt(PIN_SW0, GPIO_ITMode_FallEdge);
     
     // 进入 Halt 模式 (可快速唤醒)
     LowPower_Halt(0);
     
     // 唤醒后重新初始化
-    PFIC_DisableIRQ(GPIO_A_IRQn);
+    gpio_disable_interrupt(PIN_SW0);
     hal_timer_init();
     imu_init();
     FUSION_INIT(&vqf_state, SENSOR_ODR_HZ);
