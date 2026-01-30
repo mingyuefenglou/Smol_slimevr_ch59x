@@ -74,6 +74,25 @@
 
 ## GPIO 引脚分配
 
+### CH591D (20-pin QFN)
+
+| 引脚 | 功能 | 方向 | 说明 |
+|------|------|------|------|
+| PA11 | IMU_INT1 | Input | IMU 数据就绪中断 |
+| PA10 | CHG_DETECT_PIN | Input (Pull-up) | TP4054 充电状态检测 |
+| PA8 | VBAT_ADC_PIN | ADC Input | 电池电压检测 |
+| PA9 | LED_PIN | Output | 工作指示灯 |
+| PB11 | USB_DP | USB | USB D+ |
+| PB10 | USB_DM | USB | USB D- |
+| PB7 | RST_PIN | Input (Pull-up) | 复位按键 (更新模式) |
+| PA12 | SPI_CS | Output | IMU SPI 片选 |
+| PA13 | SPI_CLK | Output | IMU SPI 时钟 |
+| PA14 | SPI_MOSI | Output | IMU SPI MOSI |
+| PA15 | SPI_MISO | Input | IMU SPI MISO |
+| PB4 | SW0_PIN | Input (Pull-up) | 自定义按键 |
+
+### CH592X (28-pin QFN)
+
 | 引脚 | 功能 | 方向 | 说明 |
 |------|------|------|------|
 | PA4 | SW1_PIN | Input (Pull-up) | 功能按键 (休眠/配对) |
