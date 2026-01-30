@@ -11,7 +11,7 @@
 #include "rf_protocol.h"
 #include "rf_hw.h"
 #include "hal.h"
-#include "config.h"
+#include "board.h"
 
 // v0.6.2: RF Ultra支持
 #if defined(USE_RF_ULTRA) && USE_RF_ULTRA

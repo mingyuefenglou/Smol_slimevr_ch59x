@@ -53,6 +53,10 @@ endif
 # Target chip: CH591 (default) or CH592
 CHIP ?= CH591
 
+# 板子选择: ch591d (默认) 或 ch592x
+# Board selection: ch591d (default) or ch592x
+BOARD ?= ch591d
+
 # 构建目录 / Build directory
 BUILD_DIR = build/$(TARGET)
 
@@ -242,7 +246,7 @@ ASM_SOURCES = $(STARTUP_SRC)
 # 编译器标志 / Compiler Flags
 #==============================================================================
 
-INCLUDES = -Iinclude -Isrc -Isdk/StdPeriphDriver/inc -Isdk/RVMSIS -Isdk/BLE/LIB -Isdk/BLE/HAL/include
+INCLUDES = -Iinclude -Iboard -Isrc -Isdk/StdPeriphDriver/inc -Isdk/RVMSIS -Isdk/BLE/LIB -Isdk/BLE/HAL/include
 
 CPU_FLAGS = -march=rv32imac_zicsr_zifencei -mabi=ilp32 -msmall-data-limit=8
 OPT = -Os
@@ -256,6 +260,23 @@ LTO_FLAGS ?= -flto
 # 依赖文件生成 - 增量编译优化
 # Dependency file generation - incremental compilation optimization
 DEP_FLAGS = -MMD -MP
+
+# 根据板子设置芯片类型
+ifeq ($(BOARD),generic_board)
+    CHIP := CH592
+    DEFINES += -DBOARD_GENERIC_BOARD
+else ifeq ($(BOARD),ch591d)
+    CHIP := CH591
+    DEFINES += -DBOARD_CH591D
+else ifeq ($(BOARD),ch592x)
+    CHIP := CH592
+    DEFINES += -DBOARD_CH592X
+else
+    # 默认使用 CH591D
+    BOARD := ch591d
+    CHIP := CH591
+    DEFINES += -DBOARD_CH591D
+endif
 
 DEFINES += -D$(CHIP) -DCH59X -DVERSION_MAJOR=$(VERSION_MAJOR) -DVERSION_MINOR=$(VERSION_MINOR) -DVERSION_PATCH=$(VERSION_PATCH)
 

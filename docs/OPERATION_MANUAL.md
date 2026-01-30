@@ -1,4 +1,4 @@
-# SlimeVR CH592 追踪器操作手册
+﻿# SlimeVR CH592 追踪器操作手册
 # SlimeVR CH592 Tracker Operation Manual
 
 **版本 / Version**: 0.7.2  
@@ -216,10 +216,10 @@ wchisp flash receiver.bin
 git clone https://github.com/SlimeVR/SlimeVR-Tracker-ESP.git slimevr-new
 
 # 更新本项目源码
-./build_firmware.sh update ./slimevr-new
+# 注意：源码更新功能已移除，请手动更新源码
 
 # 编译
-./build_firmware.sh all
+./build.sh all
 
 # 输出文件在 output/ 目录
 # tracker_CH592_v1.0.1.bin
@@ -230,19 +230,19 @@ git clone https://github.com/SlimeVR/SlimeVR-Tracker-ESP.git slimevr-new
 
 ```bash
 # 查看当前版本
-./build_firmware.sh version
+cat VERSION
 # 输出: v1.0.0
 
 # 增加补丁版本 (bug 修复)
-./build_firmware.sh bump patch
+# 版本号管理：直接编辑VERSION文件
 # 1.0.0 -> 1.0.1
 
 # 增加次版本 (新功能)
-./build_firmware.sh bump minor
+# 版本号管理：直接编辑VERSION文件
 # 1.0.1 -> 1.1.0
 
 # 增加主版本 (重大更新)
-./build_firmware.sh bump major
+# 版本号管理：直接编辑VERSION文件
 # 1.1.0 -> 2.0.0
 ```
 

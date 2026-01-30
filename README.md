@@ -16,7 +16,7 @@
 
 ---
 
-## 📋 目录
+## 目录
 
 - [概述](#概述)
 - [核心特性](#核心特性)
@@ -40,18 +40,18 @@ v0.6.0 是产品化完整版，完成了全部优化里程碑：
 
 | 里程碑 | 状态 | 说明 |
 |:------|:----:|:-----|
-| 10 Tracker @200Hz 稳定运行 | ✅ | 支持最多10个Tracker同时运行 |
-| WOM深睡眠唤醒 | ✅ | 续航质变，功耗优化 |
-| nRF packet语义兼容 | ✅ | 完全兼容nRF格式 |
-| 动态信道黑名单 | ✅ | 干扰自适应，自动避让 |
-| 事件日志与崩溃快照 | ✅ | 完善的诊断系统 |
-| RF自愈闭环 | ✅ | 掉线自动恢复 |
+| 10 Tracker @200Hz 稳定运行 | 完成 | 支持最多10个Tracker同时运行 |
+| WOM深睡眠唤醒 | 完成 | 续航质变，功耗优化 |
+| nRF packet语义兼容 | 完成 | 完全兼容nRF格式 |
+| 动态信道黑名单 | 完成 | 干扰自适应，自动避让 |
+| 事件日志与崩溃快照 | 完成 | 完善的诊断系统 |
+| RF自愈闭环 | 完成 | 掉线自动恢复 |
 
 ---
 
 ## 核心特性
 
-### ✅ 已实现功能
+### 已实现功能
 
 #### 传感器支持
 - **IMU传感器**: 9种型号
@@ -74,11 +74,11 @@ v0.6.0 是产品化完整版，完成了全部优化里程碑：
 - **快速唤醒**: Retained State 状态恢复
 - **诊断系统**: 丢包统计/RSSI 监控
 
-### ⚠️ 可选功能
+### 可选功能
 
 - **OTA更新**: 使用 `make OTA=1` 启用
 
-### ⏳ 计划中
+### 计划中
 
 - BLE 模式
 - 多 Receiver 同步
@@ -534,16 +534,16 @@ sudo apt install gcc-riscv64-unknown-elf
 
 ```bash
 # 完整编译 (Bootloader + Tracker + Receiver)
-./build_full.sh
+./build.sh all
 
 # 仅编译 Tracker
-./build_full.sh -t tracker
+./build.sh tracker
 
 # 仅编译 Receiver
-./build_full.sh -t receiver
+./build.sh receiver
 
 # 指定芯片
-./build_full.sh -c CH591
+./build.sh -c CH591
 
 # 启用OTA
 make OTA=1
@@ -592,7 +592,10 @@ slimevr_ch59x/
 ├── docs/                # 文档
 ├── tools/               # 工具脚本
 ├── output/              # 编译输出
-├── build_full.sh        # 完整构建脚本
+├── build.sh              # 主构建入口
+├── scripts/
+│   ├── build/           # 构建脚本目录
+│   └── test/           # 测试脚本目录
 ├── Makefile             # 主Makefile
 └── README.md
 ```

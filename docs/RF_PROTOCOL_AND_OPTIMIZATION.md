@@ -1,4 +1,4 @@
-# SlimeVR CH592 RF 通讯协议与优化分析
+﻿# SlimeVR CH592 RF 通讯协议与优化分析
 
 ## 一、当前 RF 通讯协议
 

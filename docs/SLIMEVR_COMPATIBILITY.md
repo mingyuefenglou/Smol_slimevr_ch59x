@@ -1,4 +1,4 @@
-# SlimeVR 官方软件兼容性分析
+﻿# SlimeVR 官方软件兼容性分析
 # SlimeVR Official Software Compatibility Analysis
 
 ## 1. 执行摘要 / Executive Summary

@@ -13,7 +13,7 @@
  */
 
 #include "hal.h"
-#include "config.h"
+#include "board.h"
 #include "power_optimizer.h"
 #include "rf_hw.h"
 #include "imu_interface.h"

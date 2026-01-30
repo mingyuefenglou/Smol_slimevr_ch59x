@@ -305,7 +305,7 @@ const uint8_t* rf_ultra_tx_update(uint8_t tracker_id,
  * Receiver State Machine
  *============================================================================*/
 
-#include "config.h"  // 使用统一的 MAX_TRACKERS
+#include "board.h"  // 使用统一的 MAX_TRACKERS
 
 #define MAX_TRACKERS_ULTRA  MAX_TRACKERS  // 使用 config.h 中定义
 

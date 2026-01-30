@@ -15,7 +15,7 @@
  */
 
 #include "hal.h"
-#include "config.h"
+#include "board.h"
 
 #ifdef CH59X
 #include "CH59x_common.h"

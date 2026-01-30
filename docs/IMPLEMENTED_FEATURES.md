@@ -1,4 +1,4 @@
-# SlimeVR CH59X 已实现功能 / Implemented Features
+﻿# SlimeVR CH59X 已实现功能 / Implemented Features
 
 **版本**: 0.4.13  
 **更新日期**: 2026-01-20

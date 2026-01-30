@@ -1,4 +1,4 @@
-# SlimeVR CH59X 工具使用指南
+﻿# SlimeVR CH59X 工具使用指南
 
 ## 概述
 
@@ -8,25 +8,25 @@
 
 ## 1. 编译工具
 
-### build_full.sh - 完整编译脚本
+### build.sh - 主构建脚本（推荐）
 
 **用法:**
 ```bash
 # 完整编译 (Bootloader + Tracker + Receiver)
-./build_full.sh
+./build.sh all
 
 # 仅编译Tracker
-./build_full.sh -t tracker
+./build.sh tracker
 
 # 仅编译Receiver  
-./build_full.sh -t receiver
+./build.sh receiver
 
 # 指定芯片型号
-./build_full.sh -c CH591
-./build_full.sh -c CH592
+./build.sh all --mcu=CH591
+./build.sh all --mcu=CH592
 
-# 启用OTA
-./build_full.sh -o
+# 启用调试模式
+./build.sh all --debug
 ```
 
 **输出:**

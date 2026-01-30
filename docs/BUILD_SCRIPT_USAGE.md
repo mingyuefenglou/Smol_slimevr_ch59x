@@ -1,4 +1,4 @@
-# SlimeVR CH592 固件编译脚本使用指南
+﻿# SlimeVR CH592 固件编译脚本使用指南
 # SlimeVR CH592 Firmware Build Script Usage Guide
 
 ## 目录
@@ -73,23 +73,21 @@ output/
 
 ## 2. 编译脚本详解
 
-### 2.1 build_firmware.sh 命令
+### 2.1 build.sh 命令（推荐）
 
 ```bash
-./build_firmware.sh [命令] [选项]
+./build.sh [目标] [选项]
 ```
 
-**命令列表:**
+**目标列表:**
 
-| 命令 | 说明 | 示例 |
+| 目标 | 说明 | 示例 |
 |------|------|------|
-| `tracker` | 编译追踪器 | `./build_firmware.sh tracker` |
-| `receiver` | 编译接收器 | `./build_firmware.sh receiver` |
-| `all` | 编译全部 | `./build_firmware.sh all` |
-| `clean` | 清理构建 | `./build_firmware.sh clean` |
-| `version` | 显示版本 | `./build_firmware.sh version` |
-| `bump` | 增加版本号 | `./build_firmware.sh bump patch` |
-| `update` | 更新源码 | `./build_firmware.sh update ~/new-src` |
+| `tracker` | 编译追踪器 | `./build.sh tracker` |
+| `receiver` | 编译接收器 | `./build.sh receiver` |
+| `all` | 编译全部 | `./build.sh all` |
+| `clean` | 清理构建 | `./build.sh clean` |
+| `bootloader` | 仅编译Bootloader | `./build.sh bootloader` |
 
 **选项:**
 
@@ -102,25 +100,20 @@ output/
 
 ```bash
 # 基本编译
-./build_firmware.sh tracker
+./build.sh tracker
 
 # 为 CH591 编译
-./build_firmware.sh tracker --chip CH591
+./build.sh tracker --mcu=CH591
 
 # 编译全部 (CH592)
-./build_firmware.sh all
+./build.sh all
 
 # 清理后重新编译
-./build_firmware.sh clean
-./build_firmware.sh all
+./build.sh clean
+./build.sh all
 
-# 查看当前版本
-./build_firmware.sh version
-
-# 增加版本号
-./build_firmware.sh bump patch   # v1.0.0 -> v1.0.1
-./build_firmware.sh bump minor   # v1.0.1 -> v1.1.0
-./build_firmware.sh bump major   # v1.1.0 -> v2.0.0
+# 查看版本（从VERSION文件读取）
+cat VERSION
 ```
 
 ---
@@ -214,16 +207,16 @@ cat VERSION
 
 ```bash
 # 修复 Bug 后
-./build_firmware.sh bump patch
-./build_firmware.sh all
+# 版本号管理：直接编辑VERSION文件
+./build.sh all
 
 # 添加新功能后
-./build_firmware.sh bump minor
-./build_firmware.sh all
+# 版本号管理：直接编辑VERSION文件
+./build.sh all
 
 # 重大版本更新
-./build_firmware.sh bump major
-./build_firmware.sh all
+# 版本号管理：直接编辑VERSION文件
+./build.sh all
 ```
 
 ---
@@ -239,7 +232,7 @@ cat VERSION
 git clone https://github.com/SlimeVR/SlimeVR-Tracker-ESP.git slimevr-new
 
 # 2. 运行更新命令
-./build_firmware.sh update ./slimevr-new
+# 注意：源码更新功能已移除，请手动更新源码
 
 # 3. 脚本自动:
 #    - 备份当前源码
@@ -451,7 +444,7 @@ make CHIP=CH591 TARGET=receiver
 ls -la output/
 
 # 6. 打包发布
-VERSION=$(./build_firmware.sh version)
+VERSION=$(cat VERSION)
 zip -r "slimevr_ch59x_firmware_${VERSION}.zip" output/
 
 echo "发布包: slimevr_ch59x_firmware_${VERSION}.zip"

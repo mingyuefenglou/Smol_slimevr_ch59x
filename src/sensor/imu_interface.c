@@ -17,7 +17,7 @@
 
 #include "imu_interface.h"
 #include "hal.h"
-#include "config.h"
+#include "board.h"
 #include <string.h>
 
 #ifdef CH59X

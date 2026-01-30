@@ -1,4 +1,4 @@
-# SlimeVR CH59X 进一步优化建议与实施
+﻿# SlimeVR CH59X 进一步优化建议与实施
 # SlimeVR CH59X Further Optimization Suggestions & Implementation
 
 ## 概述

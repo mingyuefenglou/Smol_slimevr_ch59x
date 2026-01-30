@@ -1,4 +1,4 @@
-# CH591D 硬件引脚定义 v2
+﻿# CH591D 硬件引脚定义 v2
 # CH591D Hardware Pin Definitions v2
 
 ## 概述

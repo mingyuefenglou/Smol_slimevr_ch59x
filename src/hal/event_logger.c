@@ -6,7 +6,7 @@
 #include "event_logger.h"
 #include "hal.h"
 #include "version.h"
-#include "config.h"
+#include "board.h"
 #include "diagnostics.h"
 #include <string.h>
 #include <stdio.h>

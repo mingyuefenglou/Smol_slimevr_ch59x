@@ -1,4 +1,4 @@
-# SlimeVR CH59X 模块状态报告 / Module Status Report
+﻿# SlimeVR CH59X 模块状态报告 / Module Status Report
 
 **版本**: 0.4.13  
 **更新日期**: 2026-01-20

@@ -1,4 +1,4 @@
-# SlimeVR CH59X 编译指南
+﻿# SlimeVR CH59X 编译指南
 
 ## 环境要求
 

@@ -1,4 +1,4 @@
-# SlimeVR CH59X 功能状态报告 v0.5.0
+﻿# SlimeVR CH59X 功能状态报告 v0.5.0
 
 ## 📊 功能概览
 

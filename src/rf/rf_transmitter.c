@@ -10,7 +10,7 @@
 #include "rf_protocol.h"
 #include "rf_hw.h"
 #include "hal.h"
-#include "config.h"
+#include "board.h"
 #include "gyro_noise_filter.h"  // v0.4.22: 用于静止检测
 
 // v0.6.2: RF优化模块 (条件编译)

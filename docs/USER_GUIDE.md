@@ -1,4 +1,4 @@
-# SlimeVR CH59X 使用指南
+﻿# SlimeVR CH59X 使用指南
 
 ## 目录
 

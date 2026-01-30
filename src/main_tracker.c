@@ -13,7 +13,7 @@
  * Flash Usage: ~60KB
  */
 
-#include "config.h"
+#include "board.h"
 #include "hal.h"
 #include "rf_protocol.h"
 #include "rf_hw.h"

@@ -10,7 +10,7 @@
  * 3. 后台处理融合算法
  */
 
-#include "config.h"
+#include "board.h"
 #include "hal.h"
 #include "imu_interface.h"
 #include "vqf_ultra.h"

@@ -1,0 +1,67 @@
+# =============================================================================
+# SlimeVR CH59X 固件项目 .gitignore
+# =============================================================================
+
+# 构建目录
+build/
+*.o
+*.d
+*.elf
+*.map
+*.lst
+*.su
+
+# 板子配置临时文件（如果有）
+board/*.tmp
+board/*.bak
+
+# 输出文件
+output/
+*.bin
+*.hex
+*.uf2
+*.combined.hex
+
+# Bootloader 构建产物
+bootloader/build/
+bootloader/output/
+
+# 临时文件
+*.tmp
+*.bak
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# IDE 文件
+.vscode/
+.idea/
+*.code-workspace
+
+# 日志文件
+*.log
+build_output.log
+BUILD_ERROR_LOG.md
+
+# 编译缓存
+.cache/
+*.cache
+
+# 调试文件
+*.dSYM/
+*.su
+
+# 备份文件
+*.orig
+*.rej
+
+# 系统文件
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
+

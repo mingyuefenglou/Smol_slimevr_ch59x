@@ -1,4 +1,4 @@
-# SlimeVR CH59X 测试与错误报告指南
+﻿# SlimeVR CH59X 测试与错误报告指南
 # SlimeVR CH59X Testing and Bug Reporting Guide
 
 ## 概述

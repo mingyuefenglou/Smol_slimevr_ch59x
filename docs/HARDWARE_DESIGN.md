@@ -1,4 +1,4 @@
-# SlimeVR CH592 Tracker 硬件设计文档
+﻿# SlimeVR CH592 Tracker 硬件设计文档
 
 ## 电源系统架构
 

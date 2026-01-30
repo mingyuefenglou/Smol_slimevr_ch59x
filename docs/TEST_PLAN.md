@@ -1,4 +1,4 @@
-# TEST_PLAN (CH59X SlimeVR)
+﻿# TEST_PLAN (CH59X SlimeVR)
 版本：v0.5.1 → v0.6.0  
 目标：≤10 Tracker，固定 200Hz（5000us），稳定/丢包少/续航强/低延迟  
 更新时间：2026-01-24

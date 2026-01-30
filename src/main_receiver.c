@@ -15,7 +15,7 @@
  * Flash 使用: ~40KB
  */
 
-#include "config.h"
+#include "board.h"
 #include "hal.h"
 #include "rf_protocol.h"
 #include "rf_protocol_enhanced.h"
@@ -43,7 +43,7 @@
  *============================================================================*/
 
 // 追踪器管理
-#include "config.h"  // 使用统一的 MAX_TRACKERS 定义
+// MAX_TRACKERS 在 board.h 中定义
 
 // MAX_TRACKERS 在 config.h 中定义
 #define TRACKER_TIMEOUT_MS      1000    // 1秒无数据认为离线
