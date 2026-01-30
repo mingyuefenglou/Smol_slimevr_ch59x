@@ -41,21 +41,19 @@ ls -l output/bootloader_ch592.bin
 
 ```bash
 cd ..
-make TARGET=tracker MCU=CH592 clean
-make TARGET=tracker MCU=CH592
+# 编译 Tracker (默认 CH591D 板子)
+make TARGET=tracker
 
-# 或使用编译脚本
-./build.sh tracker
+# 指定板子类型
+make TARGET=tracker BOARD=ch591d    # CH591D 板子
+make TARGET=tracker BOARD=ch592x   # CH592X 板子
 ```
 
 ### 3. 编译 Receiver 固件
 
 ```bash
-make TARGET=receiver MCU=CH592 clean
-make TARGET=receiver MCU=CH592
-
-# 或
-./build.sh receiver
+# 编译 Receiver (CH592X 板子)
+make TARGET=receiver BOARD=ch592x
 ```
 
 ### 4. 合并固件

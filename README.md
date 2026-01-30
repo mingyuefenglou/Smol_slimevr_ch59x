@@ -533,20 +533,22 @@ sudo apt install gcc-riscv64-unknown-elf
 ### 2. 编译固件
 
 ```bash
-# 完整编译 (Bootloader + Tracker + Receiver)
-./build.sh all
+# 编译 Tracker (默认 CH591D 板子)
+make TARGET=tracker
 
-# 仅编译 Tracker
-./build.sh tracker
+# 编译 Receiver (默认 CH591D 板子)
+make TARGET=receiver
 
-# 仅编译 Receiver
-./build.sh receiver
+# 指定板子类型
+make TARGET=tracker BOARD=ch591d    # CH591D 板子
+make TARGET=tracker BOARD=ch592x   # CH592X 板子
+make TARGET=tracker BOARD=generic_board  # 通用板子（需配置引脚）
 
-# 指定芯片
-./build.sh -c CH591
+# 清理构建文件
+make clean
 
-# 启用OTA
-make OTA=1
+# 启用OTA (如果支持)
+make TARGET=tracker OTA=1
 ```
 
 ### 3. 烧录固件

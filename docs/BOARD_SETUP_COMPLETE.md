@@ -65,8 +65,8 @@ board/
 # Tracker
 make TARGET=tracker BOARD=ch591d
 
-# 或使用构建脚本
-./build.sh tracker BOARD=ch591d
+# 或使用 make 命令（推荐）
+make TARGET=tracker BOARD=ch591d
 ```
 
 ### 编译 CH592X 板子
@@ -79,7 +79,7 @@ make TARGET=tracker BOARD=ch592x
 make TARGET=receiver BOARD=ch592x
 
 # 或使用构建脚本
-./build.sh all BOARD=ch592x
+make TARGET=tracker BOARD=ch592x && make TARGET=receiver BOARD=ch592x
 ```
 
 ### 在代码中使用

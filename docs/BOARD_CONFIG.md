@@ -41,8 +41,8 @@ make TARGET=tracker BOARD=ch592x
 # 编译 CH592X 板子的 Receiver
 make TARGET=receiver BOARD=ch592x
 
-# 使用构建脚本
-./build.sh tracker BOARD=generic_board
+# 使用 make 命令（推荐）
+make TARGET=tracker BOARD=generic_board
 ```
 
 ### 默认板子

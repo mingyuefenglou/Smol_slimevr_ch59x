@@ -44,20 +44,22 @@ Smol_slimevr_ch59x/
 
 ## 快速开始
 
-### Linux/macOS
+### Linux/macOS/Windows
 
 ```bash
-# 编译所有固件（Tracker + Receiver + Bootloader）
-./build.sh all
+# 编译 Tracker (默认 CH591D 板子)
+make TARGET=tracker
 
-# 仅编译 Tracker
-./build.sh tracker
+# 编译 Receiver (默认 CH591D 板子)
+make TARGET=receiver
 
-# 仅编译 Receiver
-./build.sh receiver
+# 指定板子类型
+make TARGET=tracker BOARD=ch591d    # CH591D 板子
+make TARGET=tracker BOARD=ch592x   # CH592X 板子
+make TARGET=tracker BOARD=generic_board  # 通用板子（需配置引脚）
 
 # 清理所有构建文件
-./build.sh clean
+make clean
 ```
 
 ### Windows
@@ -72,11 +74,11 @@ make TARGET=tracker CHIP=CH592
 
 ## 构建选项
 
-### build_complete.sh 选项
+### Makefile 选项
 
 ```bash
 # 基本用法
-./build.sh [target] [options]
+make TARGET=tracker BOARD=ch591d
 # 或直接使用
 ./scripts/build/build_complete.sh [target] [options]
 

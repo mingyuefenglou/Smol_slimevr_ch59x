@@ -1,451 +1,178 @@
-﻿# SlimeVR CH592 固件编译脚本使用指南
-# SlimeVR CH592 Firmware Build Script Usage Guide
+﻿# Build Script Usage Guide
 
-## 目录
+## Overview
 
-1. [快速开始](#1-快速开始)
-2. [编译脚本详解](#2-编译脚本详解)
-3. [Makefile 使用](#3-makefile-使用)
-4. [版本管理](#4-版本管理)
-5. [固件更新流程](#5-固件更新流程)
-6. [高级配置](#6-高级配置)
-7. [常见问题](#7-常见问题)
+This document describes the build system usage. **The recommended way is to use `make` command directly.**
 
----
+## Standard Build Commands (Recommended)
 
-## 1. 快速开始
-
-### 1.1 环境准备
-
-**必需工具:**
-```bash
-# RISC-V 工具链 (任选一个)
-# 方式 1: xPack RISC-V GCC (推荐)
-# 下载: https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases
-
-# 方式 2: MounRiver Studio 工具链
-# 下载: http://www.mounriver.com/download
-
-# Python (用于 UF2 转换)
-python --version  # 需要 Python 3.6+
-
-# Make 工具
-make --version
-```
-
-**设置环境变量:**
-```bash
-# Linux/macOS
-export PATH=$PATH:/path/to/riscv-toolchain/bin
-
-# Windows (PowerShell)
-$env:PATH += ";C:\riscv-toolchain\bin"
-```
-
-### 1.2 第一次编译
+### Basic Usage
 
 ```bash
-# 进入项目目录
-cd slimevr_ch59x
+# Compile Tracker (default CH591D board)
+make TARGET=tracker
 
-# 编译追踪器固件
-make tracker
+# Compile Receiver (default CH591D board)
+make TARGET=receiver
 
-# 编译接收器固件
-make receiver
-
-# 或一次编译两者
-make both
+# Clean build files
+make clean
 ```
 
-**输出文件位置:**
-```
-output/
-├── tracker_CH592_v1.0.0.bin   # 追踪器二进制
-├── tracker_CH592_v1.0.0.hex   # 追踪器 HEX
-├── tracker_CH592_v1.0.0.uf2   # 追踪器 UF2 (拖放烧录)
-├── receiver_CH592_v1.0.0.bin  # 接收器二进制
-├── receiver_CH592_v1.0.0.hex  # 接收器 HEX
-└── receiver_CH592_v1.0.0.uf2  # 接收器 UF2
-```
-
----
-
-## 2. 编译脚本详解
-
-### 2.1 build.sh 命令（推荐）
+### Specify Board Type
 
 ```bash
-./build.sh [目标] [选项]
+# CH591D board
+make TARGET=tracker BOARD=ch591d
+
+# CH592X board
+make TARGET=tracker BOARD=ch592x
+make TARGET=receiver BOARD=ch592x
+
+# Generic board (need to configure pins)
+make TARGET=tracker BOARD=generic_board
 ```
 
-**目标列表:**
-
-| 目标 | 说明 | 示例 |
-|------|------|------|
-| `tracker` | 编译追踪器 | `./build.sh tracker` |
-| `receiver` | 编译接收器 | `./build.sh receiver` |
-| `all` | 编译全部 | `./build.sh all` |
-| `clean` | 清理构建 | `./build.sh clean` |
-| `bootloader` | 仅编译Bootloader | `./build.sh bootloader` |
-
-**选项:**
-
-| 选项 | 说明 | 示例 |
-|------|------|------|
-| `--chip` | 目标芯片 | `--chip CH591` |
-| `--help` | 显示帮助 | `--help` |
-
-### 2.2 使用示例
+### Examples
 
 ```bash
-# 基本编译
+# Compile Tracker for CH591D
+make TARGET=tracker BOARD=ch591d
+
+# Compile Tracker for CH592X
+make TARGET=tracker BOARD=ch592x
+
+# Compile Receiver for CH592X
+make TARGET=receiver BOARD=ch592x
+
+# Clean and rebuild
+make clean
+make TARGET=tracker BOARD=ch592x
+```
+
+## Alternative: build.sh Script
+
+**Note**: `build.sh` is a convenience script that depends on `scripts/build/build_complete.sh`. If that file is missing, `build.sh` will automatically fall back to `make` command.
+
+### Usage
+
+```bash
+# If build_complete.sh exists, use it
 ./build.sh tracker
 
-# 为 CH591 编译
-./build.sh tracker --mcu=CH591
-
-# 编译全部 (CH592)
-./build.sh all
-
-# 清理后重新编译
-./build.sh clean
-./build.sh all
-
-# 查看版本（从VERSION文件读取）
-cat VERSION
+# Otherwise, it will automatically use make command
 ```
 
----
+### Limitations
 
-## 3. Makefile 使用
+- Requires `scripts/build/build_complete.sh` to be present
+- May not work in all environments
+- **Recommendation**: Use `make` command directly
 
-### 3.1 基本命令
+## Makefile Options
 
+### Target Selection
+
+| Option | Description | Example |
+|--------|-------------|---------|
+| `TARGET=tracker` | Compile tracker firmware | `make TARGET=tracker` |
+| `TARGET=receiver` | Compile receiver firmware | `make TARGET=receiver` |
+
+### Board Selection
+
+| Option | Description | Example |
+|--------|-------------|---------|
+| `BOARD=ch591d` | CH591D board (20-pin QFN) | `make TARGET=tracker BOARD=ch591d` |
+| `BOARD=ch592x` | CH592X board (28-pin QFN) | `make TARGET=tracker BOARD=ch592x` |
+| `BOARD=generic_board` | Generic board (pins undefined) | `make TARGET=tracker BOARD=generic_board` |
+
+### Other Options
+
+| Option | Description | Example |
+|--------|-------------|---------|
+| `DEBUG=1` | Enable debug mode | `make TARGET=tracker DEBUG=1` |
+| `OTA=1` | Enable OTA support | `make TARGET=tracker OTA=1` |
+| `clean` | Clean build files | `make clean` |
+
+## Build Output
+
+### Output Directory
+
+All build outputs are in the `output/` directory:
+
+```
+output/
+├── tracker_ch591.elf
+├── tracker_ch591.hex
+├── tracker_ch591.bin
+├── receiver_ch592.elf
+├── receiver_ch592.hex
+└── receiver_ch592.bin
+```
+
+### Build Directory
+
+Intermediate build files are in the `build/` directory:
+
+```
+build/
+├── tracker/
+│   ├── *.o files
+│   └── *.d files
+└── receiver/
+    ├── *.o files
+    └── *.d files
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **"make: command not found"**
+   - Install GNU Make
+   - On Windows: Install MSYS2 or use WSL
+
+2. **"riscv-none-elf-gcc: command not found"**
+   - Install RISC-V GCC toolchain
+   - Add toolchain to PATH
+
+3. **"Board not defined" error**
+   - Specify BOARD parameter: `make TARGET=tracker BOARD=ch591d`
+
+4. **Build fails with pin warnings (generic_board)**
+   - This is expected for generic_board
+   - Configure pins in `board/generic_board/config.h`
+
+## Best Practices
+
+1. **Always specify BOARD parameter** for clarity:
+   ```bash
+   make TARGET=tracker BOARD=ch591d
+   ```
+
+2. **Clean before rebuilding** if you change configuration:
+   ```bash
+   make clean
+   make TARGET=tracker BOARD=ch592x
+   ```
+
+3. **Use make command directly** instead of build.sh for reliability
+
+4. **Check build output** in `output/` directory after compilation
+
+## Migration from build.sh
+
+If you were using `./build.sh`, migrate to `make`:
+
+**Old way:**
 ```bash
-# 编译追踪器
-make tracker
-
-# 编译接收器
-make receiver
-
-# 编译两者
-make both
-
-# 清理
-make clean
-
-# 显示帮助
-make help
-
-# 显示配置
-make info
-```
-
-### 3.2 带参数编译
-
-```bash
-# 指定芯片
-make TARGET=tracker CHIP=CH591
-
-# 指定版本号
-make TARGET=tracker VERSION_MAJOR=2 VERSION_MINOR=1 VERSION_PATCH=0
-
-# 编译 CH591 版本
-make ch591
-
-# 调试版本 (无优化)
-make debug
-
-# 生成反汇编
-make disasm
-```
-
-### 3.3 输出文件命名规则
-
-```
-{target}_{chip}_v{major}.{minor}.{patch}.{ext}
-
-示例:
-- tracker_CH592_v1.0.0.bin
-- tracker_CH592_v1.0.0.hex
-- tracker_CH592_v1.0.0.uf2
-- receiver_CH591_v2.1.3.bin
-```
-
----
-
-## 4. 版本管理
-
-### 4.1 版本文件
-
-版本信息存储在 `VERSION` 文件中:
-
-```bash
-# 查看版本文件
-cat VERSION
-
-# 输出:
-# VERSION_MAJOR=1
-# VERSION_MINOR=0
-# VERSION_PATCH=0
-# BUILD_DATE="2026-01-12"
-# BUILD_TIME="15:31:59"
-```
-
-### 4.2 版本号规则
-
-遵循语义化版本 (SemVer):
-
-| 类型 | 说明 | 示例 |
-|------|------|------|
-| Major | 重大更新/不兼容 | 1.0.0 -> 2.0.0 |
-| Minor | 新功能/兼容 | 1.0.0 -> 1.1.0 |
-| Patch | Bug 修复 | 1.0.0 -> 1.0.1 |
-
-### 4.3 自动版本递增
-
-```bash
-# 修复 Bug 后
-# 版本号管理：直接编辑VERSION文件
-./build.sh all
-
-# 添加新功能后
-# 版本号管理：直接编辑VERSION文件
-./build.sh all
-
-# 重大版本更新
-# 版本号管理：直接编辑VERSION文件
+./build.sh tracker
+./build.sh receiver
 ./build.sh all
 ```
 
----
-
-## 5. 固件更新流程
-
-### 5.1 从 SlimeVR 官方更新
-
-当 SlimeVR 官方发布新版本时:
-
+**New way:**
 ```bash
-# 1. 下载新版本源码
-git clone https://github.com/SlimeVR/SlimeVR-Tracker-ESP.git slimevr-new
-
-# 2. 运行更新命令
-# 注意：源码更新功能已移除，请手动更新源码
-
-# 3. 脚本自动:
-#    - 备份当前源码
-#    - 复制新源码
-#    - 递增补丁版本号
-
-# 4. 重新编译
-./build_firmware.sh all
-
-# 5. 检查输出
-ls -la output/
-```
-
-### 5.2 手动更新源码
-
-```bash
-# 1. 进入源码目录
-cd slimevr_src
-
-# 2. 复制需要的文件
-cp -r /path/to/new-source/* .
-
-# 3. 更新版本号
-./build_firmware.sh bump minor
-
-# 4. 编译
-./build_firmware.sh all
-```
-
-### 5.3 批量烧录
-
-```bash
-#!/bin/bash
-# batch_flash.sh - 批量烧录脚本
-
-FIRMWARE="output/tracker_CH592_v1.0.0.bin"
-
-echo "准备批量烧录..."
-echo "固件: $FIRMWARE"
-echo ""
-
-while true; do
-    echo "请插入追踪器, 按 Enter 继续 (Ctrl+C 退出)"
-    read
-    
-    wchisp flash "$FIRMWARE"
-    
-    if [ $? -eq 0 ]; then
-        echo "✓ 烧录成功!"
-    else
-        echo "✗ 烧录失败!"
-    fi
-    echo ""
-done
-```
-
----
-
-## 6. 高级配置
-
-### 6.1 修改默认 IMU
-
-编辑 `include/config.h`:
-
-```c
-// 可选: ICM45686 (默认), ICM42688, BMI270, LSM6DSV, LSM6DSR
-#define IMU_TYPE    IMU_ICM45686
-
-// 改为其他传感器:
-#define IMU_TYPE    IMU_BMI270
-#define IMU_TYPE    IMU_LSM6DSV
-```
-
-### 6.2 修改 RF 功率
-
-编辑 `include/config.h`:
-
-```c
-// 发射功率: -20, -16, -12, -8, -4, 0, +3, +4 dBm
-#define RF_TX_POWER_DBM     4    // +4dBm (最大)
-
-// 降低功率以节省电量:
-#define RF_TX_POWER_DBM     0    // 0dBm
-```
-
-### 6.3 使用 EKF 替代 VQF
-
-编辑 `include/config.h`:
-
-```c
-// 取消注释以启用 EKF
-#define USE_EKF_INSTEAD_OF_VQF
-```
-
-或在编译时指定:
-
-```bash
-make TARGET=tracker DEFINES="-DUSE_EKF_INSTEAD_OF_VQF"
-```
-
-### 6.4 修改采样率
-
-编辑 `include/config.h`:
-
-```c
-// 默认 200Hz
-#define SENSOR_ODR_HZ       200
-
-// 可改为:
-#define SENSOR_ODR_HZ       100     // 省电
-#define SENSOR_ODR_HZ       400     // 低延迟
-```
-
----
-
-## 7. 常见问题
-
-### Q1: 找不到工具链
-
-```
-错误: riscv-none-elf-gcc: command not found
-```
-
-**解决:**
-```bash
-# 检查工具链路径
-which riscv-none-elf-gcc
-
-# 如果没有, 添加到 PATH
-export PATH=$PATH:/path/to/riscv-toolchain/bin
-
-# 或指定前缀
-make CROSS_COMPILE=/full/path/to/riscv-none-elf-
-```
-
-### Q2: UF2 文件生成失败
-
-```
-错误: bin2uf2.py not found
-```
-
-**解决:**
-```bash
-# 确保 tools/bin2uf2.py 存在且有执行权限
-chmod +x tools/bin2uf2.py
-
-# 确保 Python 可用
-python3 --version
-```
-
-### Q3: 链接错误
-
-```
-错误: undefined reference to 'xxx'
-```
-
-**解决:**
-```bash
-# 清理并重新编译
-make clean
-make all
-```
-
-### Q4: Flash 空间不足
-
-```
-错误: section '.text' will not fit in region 'FLASH'
-```
-
-**解决:**
-- 检查是否为 CH591 (256KB Flash)
-- 禁用调试功能
-- 使用 `-Oz` 优化
-
-```c
-// 在 Makefile 中
-OPT = -Oz
-```
-
-### Q5: RAM 空间不足
-
-**解决:**
-- 减少 MAX_TRACKERS
-- 使用 VQF 而非 EKF
-- 优化数据结构
-
----
-
-## 附录: 完整编译示例
-
-```bash
-# 完整的编译和发布流程
-
-# 1. 清理
-make clean
-
-# 2. 更新版本
-./build_firmware.sh bump minor
-
-# 3. 编译 CH592 版本
-make CHIP=CH592 TARGET=tracker
-make CHIP=CH592 TARGET=receiver
-
-# 4. 编译 CH591 版本
-make CHIP=CH591 TARGET=tracker
-make CHIP=CH591 TARGET=receiver
-
-# 5. 检查输出
-ls -la output/
-
-# 6. 打包发布
-VERSION=$(cat VERSION)
-zip -r "slimevr_ch59x_firmware_${VERSION}.zip" output/
-
-echo "发布包: slimevr_ch59x_firmware_${VERSION}.zip"
+make TARGET=tracker BOARD=ch591d
+make TARGET=receiver BOARD=ch592x
 ```
