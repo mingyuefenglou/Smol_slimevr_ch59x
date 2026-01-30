@@ -74,7 +74,7 @@ python3 tools/merge_hex.py \
 | 变量 | 默认值 | 说明 |
 |------|--------|------|
 | `TARGET` | tracker | 目标: tracker 或 receiver |
-| `MCU` | CH592 | MCU 型号: CH592 或 CH591 |
+| `MCU` | CH591 | MCU 型号: CH591 或 CH592 |
 | `PREFIX` | riscv-none-elf- | 工具链前缀 |
 | `DEBUG` | 0 | 调试模式: 0 或 1 |
 
