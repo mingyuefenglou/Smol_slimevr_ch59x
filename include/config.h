@@ -123,7 +123,8 @@
 
 // 用户按键 SW0 (原理图连接到 Pin 11)
 // 注意：原理图 Pin 11 标签显示 PB7，但实际是 PB4！
-#define PIN_SW0             4       // PB4 (Pin 11) - 原理图标签错误!
+// HAL 引脚编码: PA0-PA15=0-15, PB0-PB23=16-39，因此 PB4 = 20
+#define PIN_SW0             20      // PB4 (Pin 11) - 原理图标签错误!
 #define PIN_SW0_PORT        GPIOB
 #define PIN_SW1             PIN_SW0 // 兼容旧代码
 
@@ -172,7 +173,11 @@
 
 // BOOT/SW0 按键 (连接到 Pin 11)
 // 实际是 PB4，用于进入 Bootloader
-#define PIN_BOOT            4       // PB4 (Pin 11)
+#define PIN_BOOT            20      // PB4 (Pin 11)
+
+// RST 引脚 (连接到 Pin 10)
+// HAL 引脚编码: PB7 = 23
+#define PIN_RST             23      // PB7 (Pin 10)
 
 // RST 引脚 (连接到 Pin 10)
 #define PIN_RST             7       // PB7 (Pin 10)
