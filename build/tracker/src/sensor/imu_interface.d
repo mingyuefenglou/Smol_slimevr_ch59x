@@ -1,5 +1,7 @@
 build/tracker/src/sensor/imu_interface.o: src/sensor/imu_interface.c \
- include/imu_interface.h include/hal.h include/config.h \
+ include/imu_interface.h include/hal.h board/board.h \
+ board/mingyue_slimevr/mingyue_ch592x/config.h \
+ board/mingyue_slimevr/mingyue_ch592x/pins.h \
  sdk/StdPeriphDriver/inc/CH59x_common.h \
  sdk/StdPeriphDriver/inc/CH59x_gpio.h \
  sdk/StdPeriphDriver/inc/CH59x_timer.h \
@@ -9,7 +11,9 @@ build/tracker/src/sensor/imu_interface.o: src/sensor/imu_interface.c \
  sdk/StdPeriphDriver/inc/CH59x_sys.h
 include/imu_interface.h:
 include/hal.h:
-include/config.h:
+board/board.h:
+board/mingyue_slimevr/mingyue_ch592x/config.h:
+board/mingyue_slimevr/mingyue_ch592x/pins.h:
 sdk/StdPeriphDriver/inc/CH59x_common.h:
 sdk/StdPeriphDriver/inc/CH59x_gpio.h:
 sdk/StdPeriphDriver/inc/CH59x_timer.h:

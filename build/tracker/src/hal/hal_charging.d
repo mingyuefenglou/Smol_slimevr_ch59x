@@ -1,5 +1,8 @@
 build/tracker/src/hal/hal_charging.o: src/hal/hal_charging.c \
- include/hal.h include/config.h sdk/StdPeriphDriver/inc/CH59x_common.h \
+ include/hal.h board/board.h \
+ board/mingyue_slimevr/mingyue_ch592x/config.h \
+ board/mingyue_slimevr/mingyue_ch592x/pins.h \
+ sdk/StdPeriphDriver/inc/CH59x_common.h \
  sdk/StdPeriphDriver/inc/CH59x_gpio.h \
  sdk/StdPeriphDriver/inc/CH59x_timer.h \
  sdk/StdPeriphDriver/inc/CH59x_spi.h sdk/StdPeriphDriver/inc/CH59x_i2c.h \
@@ -7,7 +10,9 @@ build/tracker/src/hal/hal_charging.o: src/hal/hal_charging.c \
  sdk/StdPeriphDriver/inc/CH59x_flash.h \
  sdk/StdPeriphDriver/inc/CH59x_sys.h
 include/hal.h:
-include/config.h:
+board/board.h:
+board/mingyue_slimevr/mingyue_ch592x/config.h:
+board/mingyue_slimevr/mingyue_ch592x/pins.h:
 sdk/StdPeriphDriver/inc/CH59x_common.h:
 sdk/StdPeriphDriver/inc/CH59x_gpio.h:
 sdk/StdPeriphDriver/inc/CH59x_timer.h:
