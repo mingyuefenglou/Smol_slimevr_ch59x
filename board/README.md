@@ -10,6 +10,10 @@ board/
 │   ├── config.h               # Main configuration file (need to configure pins)
 │   ├── pins.h                 # Pin definitions (need to configure mappings)
 │   └── README.md              # Generic configuration instructions
+├── generic_receiver/           # Generic receiver board configuration (pins undefined)
+│   ├── config.h               # Main configuration file (need to configure pins)
+│   ├── pins.h                 # Pin definitions (need to configure mappings)
+│   └── README.md              # Generic receiver configuration instructions
 └── mingyue_slimevr/            # 明月 SlimeVR 板子系列
     ├── README.md               # 系列说明
     ├── ch591d/                 # CH591D 板子配置
@@ -25,6 +29,9 @@ board/
 ### 编译时指定板子
 
 ```bash
+# Compile generic receiver (need to configure pins first)
+make TARGET=receiver BOARD=generic_receiver
+
 # Compile generic board (need to configure pins first)
 make TARGET=tracker BOARD=generic_board
 
@@ -53,10 +60,17 @@ if (CHIP_TYPE == CH591) {
 
 ## 支持的板子
 
+### Generic Receiver
+- **Chip**: CH592 (can be changed to CH591)
+- **Package**: Custom
+- **Usage**: Receiver only
+- **Config File**: `board/generic_receiver/config.h`
+- **Features**: Pins undefined, need to configure according to actual hardware
+
 ### Generic Board
 - **Chip**: CH592 (can be changed to CH591)
 - **Package**: Custom
-- **Usage**: Tracker/Receiver
+- **Usage**: Tracker
 - **Config File**: `board/generic_board/config.h`
 - **Features**: Pins undefined, need to configure according to actual hardware
 

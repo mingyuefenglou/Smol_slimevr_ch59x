@@ -262,7 +262,13 @@ LTO_FLAGS ?= -flto
 DEP_FLAGS = -MMD -MP
 
 # 根据板子设置芯片类型
-ifeq ($(BOARD),generic_board)
+ifeq ($(BOARD),generic_receiver)
+    CHIP := CH592
+    DEFINES += -DBOARD_GENERIC_RECEIVER
+    ifeq ($(TARGET),receiver)
+        DEFINES += -DBUILD_RECEIVER
+    endif
+else ifeq ($(BOARD),generic_board)
     CHIP := CH592
     DEFINES += -DBOARD_GENERIC_BOARD
 else ifeq ($(BOARD),ch591d)

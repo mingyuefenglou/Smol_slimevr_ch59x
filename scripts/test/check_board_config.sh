@@ -32,6 +32,20 @@ fi
 
 # Check board-specific files
 case "$BOARD" in
+    generic_receiver)
+        if [ ! -f "$BOARD_DIR/generic_receiver/config.h" ]; then
+            echo "✗ ERROR: board/generic_receiver/config.h not found"
+            exit 1
+        else
+            echo "✓ board/generic_receiver/config.h exists"
+        fi
+        if [ ! -f "$BOARD_DIR/generic_receiver/pins.h" ]; then
+            echo "✗ ERROR: board/generic_receiver/pins.h not found"
+            exit 1
+        else
+            echo "✓ board/generic_receiver/pins.h exists"
+        fi
+        ;;
     generic_board)
         if [ ! -f "$BOARD_DIR/generic_board/config.h" ]; then
             echo "✗ ERROR: board/generic_board/config.h not found"
@@ -64,7 +78,7 @@ case "$BOARD" in
         ;;
     *)
         echo "✗ ERROR: Unknown board: $BOARD"
-        echo "Supported boards: generic_board, ch591d, ch592x"
+        echo "Supported boards: generic_receiver, generic_board, ch591d, ch592x"
         exit 1
         ;;
 esac
@@ -72,6 +86,15 @@ esac
 # Check if board.h includes correct files
 echo ""
 echo "Checking board.h includes..."
+
+if grep -q "BOARD_GENERIC_RECEIVER" "$BOARD_DIR/board.h"; then
+    if grep -q "generic_receiver/config.h" "$BOARD_DIR/board.h"; then
+        echo "✓ BOARD_GENERIC_RECEIVER includes generic_receiver/config.h"
+    else
+        echo "✗ ERROR: BOARD_GENERIC_RECEIVER should include generic_receiver/config.h"
+        exit 1
+    fi
+fi
 
 if grep -q "BOARD_GENERIC_BOARD" "$BOARD_DIR/board.h"; then
     if grep -q "generic_board/config.h" "$BOARD_DIR/board.h"; then
