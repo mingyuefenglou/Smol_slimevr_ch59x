@@ -127,11 +127,11 @@
 #define PIN_SW0_PORT        GPIOB
 #define PIN_SW1             PIN_SW0 // 兼容旧代码
 
-// IMU SPI 接口
-#define PIN_SPI_CS          4       // PA4  - 片选 (可修改)
-#define PIN_SPI_CLK         12      // PA12 - 时钟 (硬件固定, 不可修改)
-#define PIN_SPI_MOSI        13      // PA13 - 数据输出 (硬件固定, 不可修改)
-#define PIN_SPI_MISO        14      // PA14 - 数据输入 (硬件固定, 不可修改)
+// IMU SPI 接口 (CH591D 20-pin 实际连接)
+#define PIN_SPI_CS          12      // PA12 - 片选 (硬件固定)
+#define PIN_SPI_CLK         13      // PA13 - 时钟 (硬件固定)
+#define PIN_SPI_MOSI        14      // PA14 - 数据输出 (硬件固定)
+#define PIN_SPI_MISO        15      // PA15 - 数据输入 (硬件固定)
 
 // IMU 中断引脚
 // INT1 连接到 Pin 1 (PA11)
@@ -173,6 +173,9 @@
 // BOOT/SW0 按键 (连接到 Pin 11)
 // 实际是 PB4，用于进入 Bootloader
 #define PIN_BOOT            4       // PB4 (Pin 11)
+
+// RST 引脚 (连接到 Pin 10)
+#define PIN_RST             7       // PB7 (Pin 10)
 
 /*============================================================================
  * 电源管理配置 / Power Management Configuration
