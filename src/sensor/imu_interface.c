@@ -556,8 +556,8 @@ int imu_read_raw(int16_t gyro[3], int16_t accel[3])
 bool imu_data_ready(void)
 {
 #ifdef CH59X
-    // 检查 INT1 引脚 (PB7)
-    return (GPIOB_ReadPortPin(GPIO_Pin_7) != 0);
+    // 检查 INT1 引脚
+    return hal_gpio_read(PIN_IMU_INT1);
 #else
     return true;
 #endif

@@ -112,7 +112,7 @@ typedef enum {
 // 系统状态
 static receiver_state_t state = STATE_INIT;
 static uint32_t state_enter_time = 0;
-static uint8_t error_code = 0;
+static int16_t error_code = 0;
 
 // RF 接收器模块上下文
 static rf_receiver_ctx_t rf_ctx;

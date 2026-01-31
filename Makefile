@@ -20,7 +20,7 @@ ifeq ($(OS),Windows_NT)
     MKDIR = if not exist $(subst /,\,$(1)) (mkdir $(subst /,\,$(1)))
     RM = del /Q /S
     RMDIR = rmdir /Q /S
-    CP = copy
+    CP = cmd /c copy /Y
     PYTHON = python
     SHELL_REDIRECT = 2>nul || exit 0
 else
@@ -49,9 +49,9 @@ else
     PROJECT = slimevr_tracker
 endif
 
-# 目标芯片: CH592 (默认) 或 CH591
-# Target chip: CH592 (default) or CH591
-CHIP ?= CH592
+# 目标芯片: CH591 (默认) 或 CH592
+# Target chip: CH591 (default) or CH592
+CHIP ?= CH591
 
 # 构建目录 / Build directory
 BUILD_DIR = build/$(TARGET)
